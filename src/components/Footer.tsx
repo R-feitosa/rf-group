@@ -1,5 +1,6 @@
 import { INSTAGRAM_GROUP, RH_EMAIL, WHATSAPP, WHATSAPP_LABEL } from '../data';
 import { WhatsApp } from './Icons';
+import BrandLogo from './BrandLogo';
 
 export default function Footer() {
   return (
@@ -7,7 +8,7 @@ export default function Footer() {
       <footer>
         <div className="wrap">
           <div className="fgrid">
-            <a href="#topo" className="brand">RFEITOSA<small>GROUP</small></a>
+            <a href="#topo" className="brand" aria-label="RFEITOSA Group — voltar ao topo"><BrandLogo variant="mono" /></a>
             <div className="social">
               <a href={INSTAGRAM_GROUP} target="_blank" rel="noopener noreferrer">Instagram</a>
               <a href={`https://wa.me/${WHATSAPP}`} target="_blank" rel="noopener noreferrer">WhatsApp</a>

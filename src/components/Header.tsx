@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react';
+import BrandLogo from './BrandLogo';
 
 const LINKS = [
   { href: '#quem-somos', label: 'Quem somos' },
@@ -19,7 +20,7 @@ export default function Header() {
   return (
     <header className={`${solid ? 'solid' : ''} ${open ? 'menu-open' : ''}`.trim()}>
       <div className="wrap nav">
-        <a href="#topo" className="brand">RFEITOSA<small>GROUP</small></a>
+        <a href="#topo" className="brand" aria-label="RFEITOSA Group — início"><BrandLogo /></a>
         <nav id="nav">
           <ul>
             {LINKS.map((l) => (

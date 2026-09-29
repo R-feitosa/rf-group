@@ -17,6 +17,7 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 
 | Caminho | Conteúdo |
 |---|---|
+| `src/components/BrandLogo.tsx` + `src/brandLogoPaths.ts` | Logo oficial RFEITOSA GROUP em SVG (colorida no header, branca no rodapé) |
 | `src/data.ts` | Textos, números, links e cores de cada empresa (editar aqui) |
 | `src/three/logos.json` | Vetores das logos (manual de marca, linha "Simplificação") |
 | `src/three/logos.ts` | `buildLogo()` — gera o medalhão 3D de cada uma das 6 marcas |
