@@ -45,7 +45,7 @@ export const UNITS: Unit[] = [
     instagram: 'https://www.instagram.com/connect.valley?igsh=ZG1wbDRxNzByYnNj',
   },
   {
-    id: 'connect-academy', logo: 'connect-academy', motion: 'sway', color: '#212965',
+    id: 'connect-academy', logo: 'connect-academy', motion: 'sway', color: '#c9a227',
     name: 'Connect Academy', role: 'Educação empresarial',
     text: 'Promove eventos que unem empresários para capacitação, levando conhecimento aplicado à gestão e ao crescimento dos negócios.',
     stats: [

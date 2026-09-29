@@ -19,7 +19,7 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 |---|---|
 | `src/data.ts` | Textos, números, links e cores de cada empresa (editar aqui) |
 | `src/three/logos.json` | Vetores das logos (manual de marca, linha "Simplificação") |
-| `src/three/logos.ts` | `buildLogo()` — gera o medalhão 3D de cada marca (inclui Connect Academy) |
+| `src/three/logos.ts` | `buildLogo()` — gera o medalhão 3D de cada uma das 6 marcas |
 | `src/three/Logo3D.tsx` | Componente de logo 3D animada usado nas seções das empresas |
 | `src/three/HeroScene.tsx` | Cena do hero: logo RF Group + 5 marcas em órbita (clicáveis) |
 | `src/three/motion.ts` | Estado global de mouse/scroll compartilhado pelas cenas |
