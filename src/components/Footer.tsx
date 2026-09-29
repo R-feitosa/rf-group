@@ -3,7 +3,7 @@ import { Arrow, Instagram, WhatsApp } from './Icons';
 import BrandLogo from './BrandLogo';
 
 // crédito ao desenvolvedor: discreto (aparece por inteiro no hover/foco)
-const DEV = { name: 'Ruan Pereira', url: 'https://www.linkedin.com/in/ruan-pereira-do-nascimento-ab6a45228/' };
+const DEV = { name: 'Ruan Pereira', url: 'https://github.com/RuanPereiradev' };
 
 const NAV = [
   { href: '#quem-somos', label: 'Quem somos' },
@@ -61,7 +61,7 @@ export default function Footer() {
 
           <div className="copy">
             <span>© {year} RFeitosa Group. Todos os direitos reservados.</span>
-            <a className="dev" href={DEV.url} target="_blank" rel="noopener noreferrer" aria-label={`Desenvolvido por ${DEV.name} (LinkedIn)`}>
+            <a className="dev" href={DEV.url} target="_blank" rel="noopener noreferrer" aria-label={`Desenvolvido por ${DEV.name} (GitHub)`}>
               <span className="dev-mark" aria-hidden="true">&lt;/&gt;</span>
               <span className="dev-text">Desenvolvido por <b>{DEV.name}</b></span>
             </a>
