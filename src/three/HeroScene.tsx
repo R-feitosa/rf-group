@@ -29,8 +29,9 @@ function Satellite({ logo, index, total, target, onHover }: {
   const invalidate = useThree((st) => st.invalidate);
 
   // clique: mede o medalhão na tela e dispara o voo até a seção da empresa
-  const launch = (e: ThreeEvent<MouseEvent>) => {
+  const launch = (e: ThreeEvent<PointerEvent>) => {
     e.stopPropagation();
+    if (e.button !== 0) return; // só botão principal / toque
     const el = document.getElementById(target);
     if (!el) return;
     // aparelho fraco ou movimento reduzido: sem voo, só rola suavemente até a empresa
@@ -82,9 +83,15 @@ function Satellite({ logo, index, total, target, onHover }: {
       ref={ref}
       onPointerOver={(e) => { e.stopPropagation(); hover.current = true; document.body.style.cursor = 'pointer'; onHover(target); }}
       onPointerOut={() => { hover.current = false; document.body.style.cursor = ''; onHover(null); }}
-      onClick={launch}
+      // dispara ao apertar (não ao soltar): a logo está em movimento e pode sair de baixo do cursor
+      onPointerDown={launch}
     >
       <primitive object={g} />
+      {/* área de clique invisível, maior que a logo (mais fácil acertar um alvo em órbita) */}
+      <mesh>
+        <sphereGeometry args={[R * 1.35, 12, 8]} />
+        <meshBasicMaterial transparent opacity={0} depthWrite={false} colorWrite={false} />
+      </mesh>
     </group>
   );
 }
@@ -115,7 +122,7 @@ function Rig({ children }: { children: React.ReactNode }) {
   const ref = useRef<THREE.Group>(null!);
   useFrame(({ clock }, dt) => {
     // mede o desempenho real do aparelho durante a abertura (antes do pré-aquecimento)
-    if (clock.elapsedTime > 0.4) sampleFrame(dt);
+    if (clock.elapsedTime > 0.8) sampleFrame(dt);
     // todo o sistema sobe e inclina conforme o usuário rola a página
     const p = Math.min(scroll.y / innerHeight, 1.2);
     ref.current.rotation.x = -0.12 + p * 0.5;

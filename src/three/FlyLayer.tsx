@@ -62,39 +62,24 @@ function UploadAll({ logos }: { logos: Record<LogoKey, THREE.Group> }) {
   return null;
 }
 
-/**
- * O canvas do voo tem só o tamanho do medalhão (não a tela toda) e é movido/escalado por
- * transform CSS — mover uma camada é quase de graça para a GPU; pintar tela cheia a cada quadro não.
- * RC = raio (px) do medalhão desenhado dentro do canvas; SIDE = lado do canvas (folga para girar).
- */
-function flyBox() {
-  const midR = Math.min(innerWidth, innerHeight) * 0.3;
-  const el = document.querySelector<HTMLElement>('.visual .logo3d');
-  const unitR = el ? (el.offsetWidth / 2) * MEDAL_FILL : 0;
-  const rc = Math.ceil(Math.max(midR * 1.05, unitR));
-  return { midR, rc, side: Math.ceil(rc * 2.5) };
-}
-type Box = ReturnType<typeof flyBox>;
 
 type St = { id: number; t0: number; scrollFrom: number; scrollTo: number; to: ReturnType<typeof targetDoc> | null; landed: boolean };
 
-function Flyer({ f, logos, veil, holder, box }: {
-  f: Flight | null; logos: Record<LogoKey, THREE.Group>; veil: React.RefObject<HTMLDivElement>;
-  holder: React.RefObject<HTMLDivElement>; box: Box;
-}) {
+function Flyer({ f, logos, veil }: { f: Flight | null; logos: Record<LogoKey, THREE.Group>; veil: React.RefObject<HTMLDivElement> }) {
   const ref = useRef<THREE.Group>(null!);
   const st = useRef<St>({ id: -1, t0: 0, scrollFrom: 0, scrollTo: 0, to: null, landed: false });
   const { gl, scene, camera } = useThree();
 
-  useFrame(() => {
+  useFrame(({ size }) => {
     if (!f) return;
     const s = st.current;
     const now = performance.now();
     if (s.id !== f.id) Object.assign(s, { id: f.id, t0: now, to: null, landed: false });
     const t = (now - s.t0) / 1000;
     const o = ref.current;
-    const W = innerWidth, H = innerHeight;
-    const mid = { x: W / 2, y: H / 2, r: box.midR };
+    // canvas em tela cheia, câmera ortográfica em pixels: posição/raio da logo = coordenadas de tela
+    const W = size.width, H = size.height;
+    const mid = { x: W / 2, y: H / 2, r: Math.min(W, H) * 0.3 };
 
     // rolagem controlada até centralizar a logo da empresa
     if (t >= T_SCROLL) {
@@ -135,12 +120,9 @@ function Flyer({ f, logos, veil, holder, box }: {
     }
 
     o.visible = true;
-    o.scale.setScalar(box.rc / R);
+    o.position.set(x - W / 2, H / 2 - y, 0);
+    o.scale.setScalar(Math.max(r, 1) / R);
     o.rotation.set(rotX, rotY, 0);
-    if (holder.current) {
-      holder.current.style.transform =
-        `translate3d(${(x - box.side / 2).toFixed(1)}px,${(y - box.side / 2).toFixed(1)}px,0) scale(${(Math.max(r, 1) / box.rc).toFixed(4)})`;
-    }
 
     // véu de fundo: acende na expansão, apaga no pouso
     const veilK = t < T_HOLD ? clamp01(t / T_EXPAND) : 1 - clamp01((t - T_HOLD) / (T_LAND - T_HOLD));
@@ -185,35 +167,24 @@ export default function FlyLayer() {
     [warm],
   );
   const probe = useMemo(() => (warm ? getLogo('rf-group') : null), [warm]);
-  const holder = useRef<HTMLDivElement>(null);
-  const [box, setBox] = useState<Box | null>(null);
-  useEffect(() => {
-    if (!warm) return;
-    const on = () => setBox(flyBox());
-    on();
-    addEventListener('resize', on);
-    return () => removeEventListener('resize', on);
-  }, [warm]);
-  if (!logos || !probe || !box) return null;
+  if (!logos || !probe) return null;
   return (
     <div className={`fly-layer${f ? ' on' : ''}${f?.landed ? ' landed' : ''}`} aria-hidden="true">
       <div className="fly-veil" ref={veil} />
-      <div className="fly-medal" ref={holder} style={{ width: box.side, height: box.side }}>
       <Canvas
         orthographic
         frameloop={f ? 'always' : 'never'}
-        dpr={[1, 1.5]}
+        dpr={[1, 1.25]}
         resize={{ scroll: false }}
-        gl={{ antialias: true, alpha: true, toneMappingExposure: 1.05, powerPreference: 'high-performance' }}
+        gl={{ antialias: true, alpha: true, toneMappingExposure: 1.05 }}
         camera={{ position: [0, 0, 4000], near: 1, far: 8000, zoom: 1 }}
         className="fly-canvas"
       >
         <Lights />
         <Prewarm obj={probe} />
         <UploadAll logos={logos} />
-        <Flyer f={f} logos={logos} veil={veil} holder={holder} box={box} />
+        <Flyer f={f} logos={logos} veil={veil} />
       </Canvas>
-      </div>
     </div>
   );
 }

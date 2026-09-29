@@ -16,6 +16,7 @@ export type Flight = {
 };
 
 let current: Flight | null = null;
+let startedAt = 0;
 let seq = 0;
 const subs = new Set<() => void>();
 const emit = () => subs.forEach((f) => f());
@@ -23,7 +24,9 @@ const emit = () => subs.forEach((f) => f());
 export const flight = {
   get: () => current,
   start(f: Omit<Flight, 'id' | 'landed' | 'phase'>) {
-    if (current) return;
+    // trava de segurança: um voo "preso" (aba em segundo plano, erro de GPU) não bloqueia novos cliques
+    if (current && performance.now() - startedAt < 6000) return;
+    startedAt = performance.now();
     current = { ...f, id: ++seq, phase: 'expand', landed: false };
     emit();
   },
