@@ -3,7 +3,7 @@
   --gray:#737373; --paper:#f4f3f1; --paper-2:#ebe9e6; --ink:#15172b; --muted:#5d6076;
   --line:rgba(21,23,43,.12); --line-d:rgba(255,255,255,.14);
   /* tipografia da marca (Canva): sans humanista estilo Myriad Pro → Source Sans 3; padrão leve + negrito, espaçamento justo */
-  --display:'Source Sans 3','Myriad Pro',system-ui,sans-serif; --sans:'Source Sans 3','Myriad Pro',system-ui,sans-serif;
+  --display:'Source Sans 3 Variable','Source Sans 3','Myriad Pro',system-ui,sans-serif; --sans:'Source Sans 3 Variable','Source Sans 3','Myriad Pro',system-ui,sans-serif;
   --ease:cubic-bezier(.2,.7,.2,1);
 }
 *{box-sizing:border-box;margin:0;padding:0}

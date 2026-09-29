@@ -7,7 +7,8 @@ export default function Contact() {
   const [f, setF] = useState({ nome: '', email: '', msg: '' });
   const submit = (e: FormEvent) => {
     e.preventDefault();
-    const t = `Olá! Sou ${f.nome}${f.email ? ` (${f.email})` : ''}.\n\n${f.msg}`;
+    // limites também no envio (o texto vai na URL do WhatsApp)
+    const t = `Olá! Sou ${f.nome.trim().slice(0, 80)}${f.email ? ` (${f.email.trim().slice(0, 120)})` : ''}.\n\n${f.msg.trim().slice(0, 1500)}`;
     window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(t)}`, '_blank', 'noopener');
   };
   return (
@@ -17,9 +18,9 @@ export default function Contact() {
           <Eyebrow>Fale conosco</Eyebrow>
           <h3>Vamos conversar sobre <strong>o seu negócio.</strong></h3>
           <form onSubmit={submit}>
-            <div className="f"><input id="nm" placeholder=" " required value={f.nome} onChange={(e) => setF({ ...f, nome: e.target.value })} /><label htmlFor="nm">Seu nome</label></div>
-            <div className="f"><input id="em" type="email" placeholder=" " value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /><label htmlFor="em">E-mail</label></div>
-            <div className="f"><textarea id="ms" rows={3} placeholder=" " required value={f.msg} onChange={(e) => setF({ ...f, msg: e.target.value })} /><label htmlFor="ms">Como podemos ajudar?</label></div>
+            <div className="f"><input id="nm" placeholder=" " required maxLength={80} autoComplete="name" value={f.nome} onChange={(e) => setF({ ...f, nome: e.target.value })} /><label htmlFor="nm">Seu nome</label></div>
+            <div className="f"><input id="em" type="email" placeholder=" " maxLength={120} autoComplete="email" value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /><label htmlFor="em">E-mail</label></div>
+            <div className="f"><textarea id="ms" rows={3} placeholder=" " required maxLength={1500} value={f.msg} onChange={(e) => setF({ ...f, msg: e.target.value })} /><label htmlFor="ms">Como podemos ajudar?</label></div>
             <button className="btn solid mag" type="submit" style={{ justifySelf: 'start' }}><span>Enviar mensagem</span><Arrow /></button>
           </form>
         </Reveal>

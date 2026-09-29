@@ -38,3 +38,10 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 - **Aparelhos fracos** (`src/three/device.ts`): economia de dados, pouca memória/núcleos, GPU por software ou tempo de quadro medido na abertura acima de 24 ms → o voo é desligado e o clique só rola suavemente até a empresa; canvases em resolução 1×. Para testar: `?fx=lite` força o modo leve, `?fx=full` força o voo.
 - **Performance**: logos construídas uma vez e compartilhadas (cache); todos os canvases são montados e têm os shaders compilados em segundo plano logo após a abertura (`src/three/warm.ts`), então clique e rolagem nunca criam contexto WebGL nem compilam shader; canvases pausam fora da tela e, durante o voo, só a logo voadora e a de destino renderizam; sem filtros CSS sobre canvases.
 - **Acessibilidade**: `prefers-reduced-motion` desliga as animações (o clique só rola até a empresa).
+
+## Segurança
+
+- **Cabeçalhos HTTP** (`vercel.json`): CSP restritiva (só recursos do próprio site; sem scripts de terceiros), `X-Frame-Options: DENY` e `frame-ancestors 'none'` (contra clickjacking), `nosniff`, `Referrer-Policy`, `Permissions-Policy` (câmera, microfone, geolocalização etc. desligados), HSTS e COOP.
+- **Privacidade (LGPD)**: nenhuma requisição a terceiros ao abrir o site — fonte servida localmente (`@fontsource-variable/source-sans-3`), sem Google Fonts, sem analytics; links do Instagram sem parâmetro de rastreio.
+- **Formulário**: não grava nada; monta a mensagem e abre o WhatsApp. Campos com limite de tamanho e texto codificado com `encodeURIComponent`.
+- **Dependências**: `npm audit` sem vulnerabilidades (produção e desenvolvimento). Rode `npm audit` periodicamente.

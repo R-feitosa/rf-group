@@ -20,7 +20,7 @@ export type Unit = {
 export const WHATSAPP = '558888441638';
 export const WHATSAPP_LABEL = '+55 88 8844-1638';
 export const RH_EMAIL = 'rh@rfeitosa.com.br';
-export const INSTAGRAM_GROUP = 'https://www.instagram.com/rfeitosagroup?igsh=MTM4ZWt0d2RsaXp5ag==';
+export const INSTAGRAM_GROUP = 'https://www.instagram.com/rfeitosagroup';
 
 export const UNITS: Unit[] = [
   {
@@ -33,7 +33,7 @@ export const UNITS: Unit[] = [
       { value: 1.8, decimals: 1, prefix: 'R$ ', suffix: ' bi', label: 'em gestão patrimonial' },
     ],
     cta: { label: 'Visitar site', href: 'https://rfeitosa.com.br/' },
-    instagram: 'https://www.instagram.com/rfeitosadvogados?igsh=cTdsOXh0MjEyc3J2',
+    instagram: 'https://www.instagram.com/rfeitosadvogados',
   },
   {
     id: 'connect-valley', logo: 'connect-valley', motion: 'float', color: '#0a0e2b',
@@ -44,7 +44,7 @@ export const UNITS: Unit[] = [
       { value: 80, suffix: '+', label: 'patrocinadores' },
     ],
     cta: { label: 'Visitar site', href: 'https://connect-valley.vercel.app/' },
-    instagram: 'https://www.instagram.com/connect.valley?igsh=ZG1wbDRxNzByYnNj',
+    instagram: 'https://www.instagram.com/connect.valley',
   },
   {
     id: 'connect-academy', logo: 'connect-academy', motion: 'sway', color: '#c9a227',
@@ -55,7 +55,7 @@ export const UNITS: Unit[] = [
       { value: 1000, suffix: '+', label: 'alunos' },
     ],
     cta: { label: 'Visitar site', href: 'https://connect-academy-rfgroup.vercel.app' },
-    instagram: 'https://www.instagram.com/connect.valley?igsh=ZG1wbDRxNzByYnNj',
+    instagram: 'https://www.instagram.com/connect.valley',
   },
   {
     id: 'eco-solucoes', logo: 'eco-solucoes', motion: 'float', color: '#737373',
@@ -65,8 +65,8 @@ export const UNITS: Unit[] = [
       { value: 100, suffix: '%', label: 'gestão positiva' },
       { value: 150, suffix: '+', label: 'empresas atendidas' },
     ],
-    cta: { label: 'Conhecer', href: 'https://www.instagram.com/ecosolucoesemp?igsh=MW5lejV1dGU4N3ptOQ==' },
-    instagram: 'https://www.instagram.com/ecosolucoesemp?igsh=MW5lejV1dGU4N3ptOQ==',
+    cta: { label: 'Conhecer', href: 'https://www.instagram.com/ecosolucoesemp' },
+    instagram: 'https://www.instagram.com/ecosolucoesemp',
   },
   {
     id: 'feitosa-imoveis', logo: 'feitosa-imobiliarias', motion: 'sway', color: '#212965',
@@ -76,8 +76,8 @@ export const UNITS: Unit[] = [
       { value: 15, suffix: '+', label: 'imóveis' },
       { value: 400, suffix: '+', label: 'hóspedes' },
     ],
-    cta: { label: 'Conhecer', href: 'https://www.instagram.com/imoveis.feitosa?igsh=MXVzbGRtYXJxcDRzbQ==' },
-    instagram: 'https://www.instagram.com/imoveis.feitosa?igsh=MXVzbGRtYXJxcDRzbQ==',
+    cta: { label: 'Conhecer', href: 'https://www.instagram.com/imoveis.feitosa' },
+    instagram: 'https://www.instagram.com/imoveis.feitosa',
   },
 ];
 
