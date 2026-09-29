@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { prefersReducedMotion } from '../three/motion';
+import { flight } from '../three/flight';
 
 /** Rede de partículas conectadas no fundo do hero; foge do cursor. */
 export default function NetworkCanvas() {
@@ -20,6 +21,8 @@ export default function NetworkCanvas() {
     };
     const draw = () => {
       if (!vis) return;
+      // durante o voo o hero fica coberto: não gasta quadro com a rede
+      if (flight.get()) { raf = requestAnimationFrame(draw); return; }
       cx.clearRect(0, 0, W, H);
       for (const p of pts) {
         if (!reduce) { p.x += p.vx; p.y += p.vy; if (p.x < 0 || p.x > W) p.vx *= -1; if (p.y < 0 || p.y > H) p.vy *= -1; }

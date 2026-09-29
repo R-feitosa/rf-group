@@ -11,6 +11,7 @@ function UnitRow({ u, i }: { u: Unit; i: number }) {
     <article className="unit" id={u.id}>
       <Reveal className="visual" style={{ '--c': u.color } as CSSProperties}>
         <div className="halo" />
+        <div className="shadow" />
         <Logo3D logo={u.logo} motion={u.motion} className="logo3d" label={`Logo 3D ${u.name}`} />
         <span className="drag-hint">passe o mouse</span>
       </Reveal>

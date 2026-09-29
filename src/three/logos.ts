@@ -84,12 +84,25 @@ export function buildLogo(key: LogoKey): THREE.Group {
   return g;
 }
 
-export function disposeGroup(g: THREE.Object3D) {
-  g.traverse((o) => {
-    const m = o as THREE.Mesh;
-    if (!m.isMesh) return;
-    m.geometry.dispose();
-    const mats = Array.isArray(m.material) ? m.material : [m.material];
-    mats.forEach((mt) => mt.dispose());
-  });
+// Cache: cada logo é construída uma única vez; as cenas usam clones (geometria e material compartilhados).
+const cache = new Map<LogoKey, THREE.Group>();
+export function getLogo(key: LogoKey) {
+  let g = cache.get(key);
+  if (!g) cache.set(key, (g = buildLogo(key)));
+  return g.clone();
+}
+
+const idle = (fn: () => void) =>
+  'requestIdleCallback' in window ? requestIdleCallback(fn, { timeout: 800 }) : setTimeout(fn, 60);
+
+/** Pré-constrói todas as logos em momentos ociosos, uma por vez, para não travar cliques e rolagem. */
+export function prebuildLogos() {
+  const todo = LOGOS.filter((k) => !cache.has(k));
+  const next = () => {
+    const k = todo.shift();
+    if (!k) return;
+    if (!cache.has(k)) cache.set(k, buildLogo(k));
+    idle(next);
+  };
+  idle(next);
 }

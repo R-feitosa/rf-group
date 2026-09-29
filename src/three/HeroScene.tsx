@@ -1,10 +1,10 @@
 import { useRef, useState } from 'react';
 import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
-import { FitCamera, Lights, useInView, useLogo } from './Logo3D';
+import { FitCamera, Lights, Precompile, useInView, useLogo } from './Logo3D';
 import { R, type LogoKey } from './logos';
 import { pointer, scroll, prefersReducedMotion } from './motion';
-import { flight } from './flight';
+import { flight, useFlight } from './flight';
 
 const SATELLITES: { key: LogoKey; target: string; name: string }[] = [
   { key: 'feitosa-advogados', target: 'feitosa-advogados', name: 'R.Feitosa Advogados' },
@@ -31,6 +31,7 @@ function Satellite({ logo, index, total, target, onHover }: {
     e.stopPropagation();
     const el = document.getElementById(target);
     if (prefersReducedMotion() || !el) return el?.scrollIntoView({ block: 'center' });
+    el.querySelector('.visual')?.classList.add('in'); // revela a área de destino já no clique
     const o = ref.current;
     const cam = e.camera as THREE.PerspectiveCamera;
     const box = gl.domElement.getBoundingClientRect();
@@ -126,18 +127,22 @@ export default function HeroScene() {
   const [hover, setHover] = useState<string | null>(null);
   const reduce = prefersReducedMotion();
   const label = SATELLITES.find((s) => s.target === hover)?.name;
+  const f = useFlight();
+  const paused = f?.phase === 'travel'; // coberto pelo véu enquanto a página rola
 
   return (
     <div ref={ref} className="hero-canvas" role="img" aria-label="Logo 3D do RFEITOSA Group com as empresas do grupo em órbita">
       {seen && (
         <Canvas
-          frameloop={reduce ? 'demand' : inView ? 'always' : 'never'}
-          dpr={[1, 2]}
+          frameloop={reduce ? 'demand' : inView && !paused ? 'always' : 'never'}
+          dpr={[1, 1.75]}
+          resize={{ scroll: false }}
           gl={{ antialias: true, alpha: true, toneMappingExposure: 1.05 }}
           camera={{ fov: 30, near: 0.01, far: 10, position: [0, 0, 0.42] }}
         >
           <FitCamera distance={0.42} />
           <Lights />
+          <Precompile />
           {reduce ? (
             <StaticScene />
           ) : (

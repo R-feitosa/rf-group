@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useRef, useState, type CSSProperties } from 'react';
 import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
-import { buildLogo, disposeGroup, R, type LogoKey } from './logos';
+import { getLogo, R, type LogoKey } from './logos';
 import { pointer, scroll, prefersReducedMotion } from './motion';
 import { flight, useFlight } from './flight';
+import { scheduleWarm } from './warm';
 
 export type Motion = 'sway' | 'spin' | 'float' | 'none';
 
@@ -34,9 +35,22 @@ function FitCamera({ distance }: { distance: number }) {
 }
 
 export function useLogo(key: LogoKey) {
-  const group = useMemo(() => buildLogo(key), [key]);
-  useEffect(() => () => disposeGroup(group), [group]);
-  return group;
+  return useMemo(() => getLogo(key), [key]);
+}
+
+/**
+ * Prepara o canvas assim que ele monta (fora da tela): compila os shaders e faz um render real,
+ * que envia as geometrias para a GPU e conclui a compilação. Sem isso, o primeiro quadro visível
+ * trava (o driver só termina de compilar quando o programa é usado).
+ */
+export function Precompile() {
+  const { gl, scene, camera } = useThree();
+  useEffect(() => {
+    gl.debug.checkShaderErrors = import.meta.env.DEV; // em produção evita leituras síncronas de log
+    gl.compile(scene, camera);
+    gl.render(scene, camera);
+  }, [gl, scene, camera]);
+  return null;
 }
 
 type MedalProps = {
@@ -57,7 +71,7 @@ type MedalProps = {
 function Medal({ logo, motion, hostRef, hovered, entered }: MedalProps) {
   const group = useLogo(logo);
   const pivot = useRef<THREE.Group>(null!);
-  const st = useRef({ t0: -1, flip: 0, flipTarget: 0, wasHover: false, seed: Math.random() * 10 });
+  const st = useRef({ t0: -1, flip: 0, flipTarget: 0, wasHover: false, seed: Math.random() * 10, n: 0, cx: 0, cy: 0 });
   const reduce = prefersReducedMotion();
 
   useFrame(({ clock }) => {
@@ -79,13 +93,14 @@ function Medal({ logo, motion, hostRef, hovered, entered }: MedalProps) {
     const intro = easeOutBack(k);
     const introSpin = Math.pow(1 - k, 3) * -Math.PI * 3;
 
-    // pointer relativo ao elemento (-1..1)
-    const b = hostRef.current?.getBoundingClientRect();
-    let mx = 0, my = 0;
-    if (b) {
-      mx = THREE.MathUtils.clamp(((pointer.x - b.left - b.width / 2) / innerWidth) * 2, -1, 1);
-      my = THREE.MathUtils.clamp(((pointer.y - b.top - b.height / 2) / innerHeight) * 2, -1, 1);
+    // pointer relativo ao elemento (-1..1); a posição do elemento é relida só a cada 12 quadros
+    if (s.n++ % 12 === 0 && hostRef.current) {
+      const b = hostRef.current.getBoundingClientRect();
+      s.cx = b.left + b.width / 2 + scrollX;
+      s.cy = b.top + b.height / 2 + scrollY;
     }
+    const mx = THREE.MathUtils.clamp(((pointer.x - (s.cx - scrollX)) / innerWidth) * 2, -1, 1);
+    const my = THREE.MathUtils.clamp(((pointer.y - (s.cy - scrollY)) / innerHeight) * 2, -1, 1);
 
     if (hovered.current && !s.wasHover) s.flipTarget += Math.PI * 2;
     s.wasHover = hovered.current;
@@ -147,6 +162,9 @@ export default function Logo3D({ logo, motion = 'sway', className, style, label 
   const hovered = useRef(false);
   const f = useFlight();
   const waiting = f?.logo === logo && !f.landed; // escondida até a cópia voadora pousar
+  const paused = !!f && f.logo !== logo; // durante o voo só a logo de destino renderiza
+  const [warm, setWarm] = useState(false);
+  useEffect(() => scheduleWarm(() => setWarm(true)), []);
   return (
     <div
       ref={ref}
@@ -160,16 +178,18 @@ export default function Logo3D({ logo, motion = 'sway', className, style, label 
       }}
       onPointerLeave={() => (hovered.current = false)}
     >
-      {seen && (
+      {(warm || seen) && (
         <Canvas
-          frameloop={inView ? 'always' : 'never'}
-          dpr={[1, 2]}
+          frameloop={inView && !paused ? 'always' : 'never'}
+          dpr={[1, 1.75]}
+          resize={{ scroll: false }}
           gl={{ antialias: true, alpha: true, toneMappingExposure: 1.05 }}
           camera={{ fov: 30, near: 0.01, far: 10, position: [0, 0, 0.22] }}
           style={{ width: '100%', height: '100%' }}
         >
           <FitCamera distance={0.22} />
           <Lights />
+          <Precompile />
           <Medal logo={logo} motion={motion} hostRef={ref} hovered={hovered} entered={seen} />
         </Canvas>
       )}

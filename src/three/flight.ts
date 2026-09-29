@@ -10,6 +10,8 @@ export type Flight = {
   logo: LogoKey;
   targetId: string;
   from: { x: number; y: number; r: number; rotY: number };
+  /** 'travel' = página rolando até a empresa (hero e fundo pausam) */
+  phase: 'expand' | 'travel';
   landed: boolean;
 };
 
@@ -20,9 +22,14 @@ const emit = () => subs.forEach((f) => f());
 
 export const flight = {
   get: () => current,
-  start(f: Omit<Flight, 'id' | 'landed'>) {
+  start(f: Omit<Flight, 'id' | 'landed' | 'phase'>) {
     if (current) return;
-    current = { ...f, id: ++seq, landed: false };
+    current = { ...f, id: ++seq, phase: 'expand', landed: false };
+    emit();
+  },
+  travel() {
+    if (!current || current.phase === 'travel') return;
+    current = { ...current, phase: 'travel' };
     emit();
   },
   land() {
