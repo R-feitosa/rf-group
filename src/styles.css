@@ -188,6 +188,12 @@ footer .brand{font-size:1.2rem}
 .wa svg{width:26px;height:26px}
 @keyframes ping{to{transform:scale(1.7);opacity:0}}
 
+/* voo da logo do hero até a empresa */
+.fly-layer{position:fixed;inset:0;z-index:90;pointer-events:none;transition:opacity .3s}
+.fly-layer.landed{opacity:0}
+.fly-veil{position:absolute;inset:0;opacity:0;background:radial-gradient(circle at 50% 50%,rgba(33,41,101,.35),rgba(10,14,43,.55));backdrop-filter:blur(3px)}
+.fly-canvas{position:absolute!important;inset:0;filter:drop-shadow(0 30px 40px rgba(10,14,43,.45))}
+
 @media(max-width:920px){
   .hero .wrap,.about .grid,.unit,.contact .grid{grid-template-columns:1fr;gap:40px}
   .hero .wrap{padding-top:120px}

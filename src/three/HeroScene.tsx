@@ -1,9 +1,10 @@
 import { useRef, useState } from 'react';
-import { Canvas, useFrame } from '@react-three/fiber';
+import { Canvas, useFrame, useThree, type ThreeEvent } from '@react-three/fiber';
 import * as THREE from 'three';
 import { FitCamera, Lights, useInView, useLogo } from './Logo3D';
 import { R, type LogoKey } from './logos';
 import { pointer, scroll, prefersReducedMotion } from './motion';
+import { flight } from './flight';
 
 const SATELLITES: { key: LogoKey; target: string; name: string }[] = [
   { key: 'feitosa-advogados', target: 'feitosa-advogados', name: 'R.Feitosa Advogados' },
@@ -23,6 +24,33 @@ function Satellite({ logo, index, total, target, onHover }: {
   const ref = useRef<THREE.Group>(null!);
   const hover = useRef(false);
   const phase = (index / total) * Math.PI * 2;
+  const gl = useThree((st) => st.gl);
+
+  // clique: mede o medalhão na tela e dispara o voo até a seção da empresa
+  const launch = (e: ThreeEvent<MouseEvent>) => {
+    e.stopPropagation();
+    const el = document.getElementById(target);
+    if (prefersReducedMotion() || !el) return el?.scrollIntoView({ block: 'center' });
+    const o = ref.current;
+    const cam = e.camera as THREE.PerspectiveCamera;
+    const box = gl.domElement.getBoundingClientRect();
+    const wp = o.getWorldPosition(new THREE.Vector3());
+    const ndc = wp.clone().project(cam);
+    const halfH = cam.position.distanceTo(wp) * Math.tan(THREE.MathUtils.degToRad(cam.fov / 2));
+    flight.start({
+      logo,
+      targetId: target,
+      from: {
+        x: box.left + ((ndc.x + 1) / 2) * box.width,
+        y: box.top + ((1 - ndc.y) / 2) * box.height,
+        r: ((o.getWorldScale(new THREE.Vector3()).x * R) / halfH) * (box.height / 2),
+        rotY: o.rotation.y % (Math.PI * 2),
+      },
+    });
+    hover.current = false;
+    document.body.style.cursor = '';
+    onHover(null);
+  };
 
   useFrame(({ clock }) => {
     const t = clock.elapsedTime;
@@ -37,8 +65,10 @@ function Satellite({ logo, index, total, target, onHover }: {
     const flip = cycle > 0.88 ? easeOut((cycle - 0.88) / 0.12) * Math.PI * 2 : 0;
     o.rotation.y = Math.sin(t * 0.9 + index) * 0.5 + flip;
     o.rotation.x = Math.sin(t * 0.8 + index) * 0.2;
-    const sc = 0.3 * k * (hover.current ? 1.3 : 1);
-    o.scale.setScalar(Math.max(o.scale.x + (sc - o.scale.x) * 0.15, 0.001));
+    // some da órbita enquanto voa (a cópia na camada de voo assume) e volta depois
+    const flying = flight.get()?.logo === logo;
+    const sc = flying ? 0 : 0.3 * k * (hover.current ? 1.3 : 1);
+    o.scale.setScalar(flying ? 0.001 : Math.max(o.scale.x + (sc - o.scale.x) * 0.15, 0.001));
   });
 
   return (
@@ -46,7 +76,7 @@ function Satellite({ logo, index, total, target, onHover }: {
       ref={ref}
       onPointerOver={(e) => { e.stopPropagation(); hover.current = true; document.body.style.cursor = 'pointer'; onHover(target); }}
       onPointerOut={() => { hover.current = false; document.body.style.cursor = ''; onHover(null); }}
-      onClick={(e) => { e.stopPropagation(); document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'center' }); }}
+      onClick={launch}
     >
       <primitive object={g} />
     </group>

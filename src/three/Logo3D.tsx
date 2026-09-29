@@ -3,6 +3,7 @@ import { Canvas, useFrame, useThree } from '@react-three/fiber';
 import * as THREE from 'three';
 import { buildLogo, disposeGroup, R, type LogoKey } from './logos';
 import { pointer, scroll, prefersReducedMotion } from './motion';
+import { flight, useFlight } from './flight';
 
 export type Motion = 'sway' | 'spin' | 'float' | 'none';
 
@@ -72,7 +73,8 @@ function Medal({ logo, motion, hostRef, hovered, entered }: MedalProps) {
       p.scale.setScalar(0.001);
       return;
     }
-    if (s.t0 < 0) s.t0 = t;
+    // se a logo chegou voando do hero, pula a animação de entrada
+    if (s.t0 < 0) s.t0 = flight.get()?.logo === logo ? t - 10 : t;
     const k = Math.min((t - s.t0) / 1.6, 1);
     const intro = easeOutBack(k);
     const introSpin = Math.pow(1 - k, 3) * -Math.PI * 3;
@@ -143,14 +145,19 @@ type Logo3DProps = {
 export default function Logo3D({ logo, motion = 'sway', className, style, label }: Logo3DProps) {
   const { ref, inView, seen } = useInView<HTMLDivElement>({ rootMargin: '80px' });
   const hovered = useRef(false);
+  const f = useFlight();
+  const waiting = f?.logo === logo && !f.landed; // escondida até a cópia voadora pousar
   return (
     <div
       ref={ref}
       className={className}
-      style={style}
+      style={{ ...style, opacity: waiting ? 0 : 1, transition: 'opacity .3s' }}
       role="img"
       aria-label={label ?? `Logo 3D ${logo}`}
-      onPointerEnter={() => (hovered.current = true)}
+      onPointerEnter={(e) => {
+        // só mouse de verdade; ignora o "hover" gerado pela rolagem automática do voo
+        if (e.pointerType === 'mouse' && !flight.get()) hovered.current = true;
+      }}
       onPointerLeave={() => (hovered.current = false)}
     >
       {seen && (

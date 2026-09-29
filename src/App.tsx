@@ -8,6 +8,7 @@ import Numbers from './components/Numbers';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { useMagnetic } from './hooks/useMagnetic';
+import FlyLayer from './three/FlyLayer';
 import { bindMotion, prefersReducedMotion } from './three/motion';
 
 export default function App() {
@@ -65,6 +66,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
+      <FlyLayer />
     </>
   );
 }

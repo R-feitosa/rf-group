@@ -22,6 +22,7 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 | `src/three/logos.ts` | `buildLogo()` — gera o medalhão 3D de cada uma das 6 marcas |
 | `src/three/Logo3D.tsx` | Componente de logo 3D animada usado nas seções das empresas |
 | `src/three/HeroScene.tsx` | Cena do hero: logo RF Group + 5 marcas em órbita (clicáveis) |
+| `src/three/FlyLayer.tsx` + `flight.ts` | Transição de voo: a logo clicada no hero se expande na tela e pousa na seção da empresa |
 | `src/three/motion.ts` | Estado global de mouse/scroll compartilhado pelas cenas |
 | `src/components/*` | Seções da página (Header, Hero, Quem somos, Empresas, Números, Contato, Footer) |
 
@@ -30,5 +31,6 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 - **Entrada**: cada medalhão gira 1,5 volta e cresce com leve *overshoot* ao entrar na tela.
 - **Idle**: `sway` (balança mostrando a face), `float` (flutua) ou `spin` (giro contínuo), com oscilação vertical.
 - **Interação**: segue o mouse; inclina com a velocidade do scroll; ao passar o mouse dá um giro completo.
-- **Hero**: as 5 marcas orbitam o medalhão RF Group, fazem *flip* periódico, mostram o nome no hover e rolam até a seção ao clicar; o sistema inclina conforme a página rola.
+- **Hero**: as 5 marcas orbitam o medalhão RF Group, fazem *flip* periódico e mostram o nome no hover; o sistema inclina conforme a página rola.
+- **Clique numa marca em órbita**: a logo sai da órbita, cresce girando no centro da tela (com véu desfocado ao fundo), a página rola sozinha e a logo voa até pousar exatamente no lugar da logo da empresa (~2,4 s).
 - **Performance/acessibilidade**: os canvases só montam quando visíveis e pausam fora da tela; `prefers-reduced-motion` desliga as animações.
