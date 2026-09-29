@@ -8,6 +8,8 @@ export type Unit = {
   motion: Motion;
   color: string;
   name: string;
+  /** palavra-conceito da marca (material do Canva) */
+  tagline: string;
   role: string;
   text: string;
   stats: Stat[];
@@ -23,7 +25,7 @@ export const INSTAGRAM_GROUP = 'https://www.instagram.com/rfeitosagroup?igsh=MTM
 export const UNITS: Unit[] = [
   {
     id: 'feitosa-advogados', logo: 'feitosa-advogados', motion: 'sway', color: '#5f0006',
-    name: 'R.Feitosa Advogados', role: 'Núcleo jurídico',
+    name: 'R.Feitosa Advogados', tagline: 'Obsessão', role: 'Núcleo jurídico',
     text: 'Unindo técnica e estratégia para transformar desafios legais em soluções inteligentes.',
     stats: [
       { value: 15, suffix: '+', label: 'anos de experiência' },
@@ -35,7 +37,7 @@ export const UNITS: Unit[] = [
   },
   {
     id: 'connect-valley', logo: 'connect-valley', motion: 'float', color: '#0a0e2b',
-    name: 'Connect Valley', role: 'Eventos e networking',
+    name: 'Connect Valley', tagline: 'Despertar', role: 'Eventos e networking',
     text: 'Braço de eventos e networking do grupo, criando experiências empreendedoras que conectam pessoas, ideias e negócios.',
     stats: [
       { value: 800, suffix: '+', label: 'participantes' },
@@ -46,7 +48,7 @@ export const UNITS: Unit[] = [
   },
   {
     id: 'connect-academy', logo: 'connect-academy', motion: 'sway', color: '#c9a227',
-    name: 'Connect Academy', role: 'Educação empresarial',
+    name: 'Connect Academy', tagline: 'Provocar', role: 'Educação empresarial',
     text: 'Promove eventos que unem empresários para capacitação, levando conhecimento aplicado à gestão e ao crescimento dos negócios.',
     stats: [
       { value: 50, suffix: '+', label: 'cursos' },
@@ -57,7 +59,7 @@ export const UNITS: Unit[] = [
   },
   {
     id: 'eco-solucoes', logo: 'eco-solucoes', motion: 'float', color: '#737373',
-    name: 'Eco Soluções', role: 'Consultoria empresarial',
+    name: 'Eco Soluções', tagline: 'Lucratividade', role: 'Consultoria empresarial',
     text: 'Consultoria tributária, jurídica e empresarial com foco em performance e resultados sustentáveis.',
     stats: [
       { value: 100, suffix: '%', label: 'gestão positiva' },
@@ -68,7 +70,7 @@ export const UNITS: Unit[] = [
   },
   {
     id: 'feitosa-imoveis', logo: 'feitosa-imobiliarias', motion: 'sway', color: '#212965',
-    name: 'Feitosa Imóveis', role: 'Locação e administração',
+    name: 'Feitosa Imóveis', tagline: 'Servir', role: 'Locação e administração',
     text: 'Locação e administração de imóveis com atendimento humano, transparência e cuidado com o patrimônio.',
     stats: [
       { value: 15, suffix: '+', label: 'imóveis' },

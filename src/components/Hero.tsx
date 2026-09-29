@@ -4,7 +4,8 @@ import { Arrow } from './Icons';
 
 const HeroScene = lazy(() => import('../three/HeroScene'));
 
-const WORDS: [string, boolean][] = [['Crescimento', false], ['sustentável,', true], ['solidez', false], ['e', false], ['visão.', false]];
+// padrão da marca: palavra leve + palavra em negrito
+const WORDS: [string, boolean][] = [['Crescimento', false], ['sustentável,', true], ['solidez', false], ['e', false], ['visão.', true]];
 
 export default function Hero({ ready }: { ready: boolean }) {
   return (
@@ -16,7 +17,7 @@ export default function Hero({ ready }: { ready: boolean }) {
           <h1 aria-label="Crescimento sustentável, com solidez e visão estratégica">
             {WORDS.map(([w, em], i) => (
               <span key={w}>
-                <span className="w" aria-hidden="true"><i style={{ transitionDelay: `${0.5 + i * 0.12}s` }}>{em ? <em>{w}</em> : w}</i></span>
+                <span className="w" aria-hidden="true"><i style={{ transitionDelay: `${0.5 + i * 0.12}s` }}>{em ? <b>{w}</b> : w}</i></span>
                 {i === 1 ? <br /> : ' '}
               </span>
             ))}

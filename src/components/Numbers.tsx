@@ -8,7 +8,7 @@ export default function Numbers() {
     <section className="numbers" id="numeros">
       <div className="wrap">
         <Eyebrow>O grupo em números</Eyebrow>
-        <Reveal as="h2" style={{ maxWidth: 640 }}>Resultados que sustentam a confiança.</Reveal>
+        <Reveal as="h2" style={{ maxWidth: 640 }}>Resultados que <strong>sustentam a confiança.</strong></Reveal>
         <div className="row">
           {NUMBERS.map((n, i) => (
             <Reveal className="cell" key={n.label} style={{ '--d': `${i * 0.1}s` } as CSSProperties}>

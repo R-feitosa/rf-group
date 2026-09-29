@@ -15,7 +15,7 @@ export default function Contact() {
       <div className="wrap grid">
         <Reveal variant="left" className="card light">
           <Eyebrow>Fale conosco</Eyebrow>
-          <h3>Vamos conversar sobre o seu negócio.</h3>
+          <h3>Vamos conversar sobre <strong>o seu negócio.</strong></h3>
           <form onSubmit={submit}>
             <div className="f"><input id="nm" placeholder=" " required value={f.nome} onChange={(e) => setF({ ...f, nome: e.target.value })} /><label htmlFor="nm">Seu nome</label></div>
             <div className="f"><input id="em" type="email" placeholder=" " value={f.email} onChange={(e) => setF({ ...f, email: e.target.value })} /><label htmlFor="em">E-mail</label></div>
@@ -25,7 +25,7 @@ export default function Contact() {
         </Reveal>
         <Reveal variant="right" className="card dark">
           <Eyebrow style={{ color: '#e5a0a6' }}>Banco de talentos</Eyebrow>
-          <h3>Quer fazer parte de um ecossistema inovador?</h3>
+          <h3>Quer fazer parte de um <strong>ecossistema inovador?</strong></h3>
           <p>Envie seu currículo e conheça as oportunidades nas empresas do grupo.</p>
           <a className="mail" href={`mailto:${RH_EMAIL}`}>{RH_EMAIL}</a><br />
           <a className="btn light mag" href={`mailto:${RH_EMAIL}?subject=Banco%20de%20Talentos`}><span>Cadastrar currículo</span><Arrow /></a>

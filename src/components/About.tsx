@@ -7,7 +7,7 @@ export default function About() {
       <div className="wrap grid">
         <Reveal variant="left">
           <Eyebrow>Quem somos</Eyebrow>
-          <h2>Um ecossistema que reúne inovação, solidez e visão estratégica.</h2>
+          <h2>Um ecossistema que reúne <strong>inovação, solidez e visão estratégica.</strong></h2>
           <p>
             O <strong>RFEITOSA Group</strong> integra soluções nas áreas de <strong>imóveis</strong>, <strong>soluções empresariais</strong>,{' '}
             <strong>assessoria jurídica</strong> e <strong>eventos de negócios</strong>, atuando de forma conectada para acompanhar o

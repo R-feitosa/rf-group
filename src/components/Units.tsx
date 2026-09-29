@@ -17,7 +17,7 @@ function UnitRow({ u, i }: { u: Unit; i: number }) {
       </Reveal>
       <Reveal variant={even ? 'left' : 'right'}>
         <span className="idx">{String(i + 1).padStart(2, '0')} / {String(UNITS.length).padStart(2, '0')}</span>
-        <h3>{u.name}</h3>
+        <h3>{u.name}<strong>{u.tagline}</strong></h3>
         <div className="role">{u.role}</div>
         <p>{u.text}</p>
         <div className="stats">
@@ -40,7 +40,7 @@ export default function Units() {
       <div className="wrap">
         <Reveal className="head">
           <Eyebrow>Nossas empresas</Eyebrow>
-          <h2>Cinco frentes, um só propósito.</h2>
+          <h2>Cinco frentes, <strong>um só propósito.</strong></h2>
         </Reveal>
         {UNITS.map((u, i) => <UnitRow key={u.id} u={u} i={i} />)}
       </div>
