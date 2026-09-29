@@ -5,6 +5,7 @@ import { FitCamera, Lights, Precompile, useInView, useLogo } from './Logo3D';
 import { R, type LogoKey } from './logos';
 import { pointer, scroll, prefersReducedMotion } from './motion';
 import { flight, useFlight } from './flight';
+import { checkRenderer, device, sampleFrame } from './device';
 
 const SATELLITES: { key: LogoKey; target: string; name: string }[] = [
   { key: 'feitosa-advogados', target: 'feitosa-advogados', name: 'R.Feitosa Advogados' },
@@ -25,12 +26,15 @@ function Satellite({ logo, index, total, target, onHover }: {
   const hover = useRef(false);
   const phase = (index / total) * Math.PI * 2;
   const gl = useThree((st) => st.gl);
+  const invalidate = useThree((st) => st.invalidate);
 
   // clique: mede o medalhão na tela e dispara o voo até a seção da empresa
   const launch = (e: ThreeEvent<MouseEvent>) => {
     e.stopPropagation();
     const el = document.getElementById(target);
-    if (prefersReducedMotion() || !el) return el?.scrollIntoView({ block: 'center' });
+    if (!el) return;
+    // aparelho fraco ou movimento reduzido: sem voo, só rola suavemente até a empresa
+    if (prefersReducedMotion() || device.lowEnd) return el.scrollIntoView({ behavior: 'smooth', block: 'center' });
     el.querySelector('.visual')?.classList.add('in'); // revela a área de destino já no clique
     const o = ref.current;
     const cam = e.camera as THREE.PerspectiveCamera;
@@ -51,6 +55,7 @@ function Satellite({ logo, index, total, target, onHover }: {
     hover.current = false;
     document.body.style.cursor = '';
     onHover(null);
+    invalidate(); // um último quadro do hero, já sem este satélite (o hero pausa durante o voo)
   };
 
   useFrame(({ clock }) => {
@@ -108,7 +113,9 @@ function Core() {
 
 function Rig({ children }: { children: React.ReactNode }) {
   const ref = useRef<THREE.Group>(null!);
-  useFrame(() => {
+  useFrame(({ clock }, dt) => {
+    // mede o desempenho real do aparelho durante a abertura (antes do pré-aquecimento)
+    if (clock.elapsedTime > 0.4) sampleFrame(dt);
     // todo o sistema sobe e inclina conforme o usuário rola a página
     const p = Math.min(scroll.y / innerHeight, 1.2);
     ref.current.rotation.x = -0.12 + p * 0.5;
@@ -128,14 +135,15 @@ export default function HeroScene() {
   const reduce = prefersReducedMotion();
   const label = SATELLITES.find((s) => s.target === hover)?.name;
   const f = useFlight();
-  const paused = f?.phase === 'travel'; // coberto pelo véu enquanto a página rola
+  const paused = !!f; // durante o voo só a logo voadora renderiza
 
   return (
     <div ref={ref} className="hero-canvas" role="img" aria-label="Logo 3D do RFEITOSA Group com as empresas do grupo em órbita">
       {seen && (
         <Canvas
-          frameloop={reduce ? 'demand' : inView && !paused ? 'always' : 'never'}
-          dpr={[1, 1.75]}
+          frameloop={reduce || paused ? 'demand' : inView ? 'always' : 'never'}
+          dpr={device.lowEnd ? 1 : [1, 1.75]}
+          onCreated={({ gl }) => checkRenderer(gl.getContext())}
           resize={{ scroll: false }}
           gl={{ antialias: true, alpha: true, toneMappingExposure: 1.05 }}
           camera={{ fov: 30, near: 0.01, far: 10, position: [0, 0, 0.42] }}

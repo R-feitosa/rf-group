@@ -5,6 +5,7 @@ import { getLogo, R, type LogoKey } from './logos';
 import { pointer, scroll, prefersReducedMotion } from './motion';
 import { flight, useFlight } from './flight';
 import { scheduleWarm } from './warm';
+import { device } from './device';
 
 export type Motion = 'sway' | 'spin' | 'float' | 'none';
 
@@ -181,7 +182,7 @@ export default function Logo3D({ logo, motion = 'sway', className, style, label 
       {(warm || seen) && (
         <Canvas
           frameloop={inView && !paused ? 'always' : 'never'}
-          dpr={[1, 1.75]}
+          dpr={device.lowEnd ? 1 : [1, 1.75]}
           resize={{ scroll: false }}
           gl={{ antialias: true, alpha: true, toneMappingExposure: 1.05 }}
           camera={{ fov: 30, near: 0.01, far: 10, position: [0, 0, 0.22] }}

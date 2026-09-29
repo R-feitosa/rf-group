@@ -190,11 +190,18 @@ footer .brand{font-size:1.2rem}
 @keyframes ping{to{transform:scale(1.7);opacity:0}}
 
 /* voo da logo do hero até a empresa */
-.fly-layer{position:fixed;inset:0;z-index:90;pointer-events:none;visibility:hidden;contain:strict}
-.fly-layer.on{visibility:visible}
-.fly-layer.landed .fly-canvas{opacity:0;transition:opacity .3s}
+/* opacidade (e não visibility) para a camada já estar composta na GPU quando o voo começar */
+.fly-layer{position:fixed;inset:0;z-index:90;pointer-events:none;opacity:0;contain:strict}
+.fly-layer.on{opacity:1}
+.fly-layer *{pointer-events:none!important} /* o wrapper do R3F vem com pointer-events:auto */
+.fly-layer.landed .fly-medal{opacity:0;transition:opacity .3s}
 .fly-veil{position:absolute;inset:0;opacity:0;background:radial-gradient(circle at 50% 50%,rgba(33,41,101,.45),rgba(10,14,43,.72));will-change:opacity}
+.fly-medal{position:absolute;left:0;top:0;transform-origin:50% 50%;will-change:transform}
 .fly-canvas{position:absolute!important;inset:0}
+/* durante o voo: pausa animações de fundo e tira o desfoque do header (caro durante a rolagem) */
+body.flying .track,body.flying .ring,body.flying .orb,body.flying .visual::before,body.flying .visual::after,body.flying .wa::before,body.flying .scroll i::after{animation-play-state:paused}
+body.flying header.solid{backdrop-filter:none;background:rgba(10,14,43,.96)}
+body.flying #glow{opacity:0!important}
 
 @media(max-width:920px){
   .hero .wrap,.about .grid,.unit,.contact .grid{grid-template-columns:1fr;gap:40px}

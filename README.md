@@ -32,6 +32,7 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 - **Idle**: `sway` (balança mostrando a face), `float` (flutua) ou `spin` (giro contínuo), com oscilação vertical.
 - **Interação**: segue o mouse; inclina com a velocidade do scroll; ao passar o mouse dá um giro completo.
 - **Hero**: as 5 marcas orbitam o medalhão RF Group, fazem *flip* periódico e mostram o nome no hover; o sistema inclina conforme a página rola.
-- **Clique numa marca em órbita**: a logo sai da órbita, cresce girando no centro da tela (com véu desfocado ao fundo), a página rola sozinha e a logo voa até pousar exatamente no lugar da logo da empresa (~2,4 s).
+- **Clique numa marca em órbita**: a logo sai da órbita, cresce girando no centro da tela (com véu desfocado ao fundo), a página rola sozinha e a logo voa até pousar exatamente no lugar da logo da empresa (~3,2 s, curvas suaves).
+- **Aparelhos fracos** (`src/three/device.ts`): economia de dados, pouca memória/núcleos, GPU por software ou tempo de quadro medido na abertura acima de 24 ms → o voo é desligado e o clique só rola suavemente até a empresa; canvases em resolução 1×. Para testar: `?fx=lite` força o modo leve, `?fx=full` força o voo.
 - **Performance**: logos construídas uma vez e compartilhadas (cache); todos os canvases são montados e têm os shaders compilados em segundo plano logo após a abertura (`src/three/warm.ts`), então clique e rolagem nunca criam contexto WebGL nem compilam shader; canvases pausam fora da tela e, durante o voo, só a logo voadora e a de destino renderizam; sem filtros CSS sobre canvases.
 - **Acessibilidade**: `prefers-reduced-motion` desliga as animações (o clique só rola até a empresa).
