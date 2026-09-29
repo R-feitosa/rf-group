@@ -96,3 +96,22 @@ export const NUMBERS: Stat[] = [
 ];
 
 export const MARQUEE = ['Advocacia', 'Consultoria', 'Eventos', 'Educação', 'Imóveis', 'Compliance', 'Networking', 'Gestão', 'Estratégia'];
+
+/** Empresas clientes (mesma lista do carrossel do site R.Feitosa Advogados — repositório site-sdvogados). */
+export const CLIENTS: { id: string; name: string }[] = [
+  { id: 'quick', name: 'Quick' },
+  { id: 'drysteel', name: 'Drysteel Sistema Construtivo' },
+  { id: 'fabricio-capas', name: 'Fabrício Capas Pra Você' },
+  { id: 'famol', name: 'Famol Móveis e Eletros' },
+  { id: 'ad-construtora', name: 'AD Construtora' },
+  { id: 'valmir-andrade', name: 'Valmir Andrade Contabilidade' },
+  { id: 'agropecuaria-oliveira', name: 'Agropecuária Oliveira' },
+  { id: 'aco-granja', name: 'Aço Granja' },
+  { id: '3a-frios', name: '3A Frios' },
+  { id: 'chocobalas', name: 'Varejão Chocobalas' },
+  { id: 'gelato-grano', name: 'Gelato & Grano' },
+  { id: 'pao-mix', name: 'Pão Mix' },
+  { id: 'utilmix', name: 'Lojão Utilmix' },
+  { id: 'gateway', name: 'Gateway Computadores' },
+  { id: 'nestle-dfa', name: 'Nestlé DFA Distribuição' },
+];

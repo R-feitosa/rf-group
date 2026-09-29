@@ -5,6 +5,7 @@ import Marquee from './components/Marquee';
 import About from './components/About';
 import Units from './components/Units';
 import Numbers from './components/Numbers';
+import Clients from './components/Clients';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { useMagnetic } from './hooks/useMagnetic';
@@ -71,6 +72,7 @@ export default function App() {
         <About />
         <Units />
         <Numbers />
+        <Clients />
         <Contact />
       </main>
       <Footer />

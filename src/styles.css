@@ -165,7 +165,20 @@ main{overflow-x:clip}
 .numbers h2{color:#c9cdf0}.numbers h2 strong{color:#fff}
 .card.dark h3{color:#c9cdf0}.card.dark h3 strong{color:#fff}
 
-/* contact */
+/* clientes */
+.clients{background:var(--paper-2);padding:110px 0 100px;overflow:hidden}
+.clients .head{max-width:640px;margin-bottom:56px}
+.clients-marquee{position:relative;-webkit-mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent);mask-image:linear-gradient(90deg,transparent,#000 8%,#000 92%,transparent)}
+.clients-track{display:flex;width:max-content;animation:mq 60s linear infinite}
+.clients-marquee:hover .clients-track{animation-play-state:paused}
+.clients-row{display:flex;gap:18px;padding-right:18px;list-style:none}
+.client{width:210px;height:118px;background:#fff;border:1px solid var(--line);display:grid;place-items:center;padding:18px 22px;transition:border-color .4s,box-shadow .4s,transform .4s var(--ease)}
+.client img{max-width:100%;max-height:74px;width:auto;height:auto;object-fit:contain;filter:grayscale(1);opacity:.6;transition:filter .4s,opacity .4s}
+.client:hover{border-color:color-mix(in srgb,var(--wine) 35%,transparent);box-shadow:0 18px 34px -20px rgba(10,14,43,.35);transform:translateY(-4px)}
+.client:hover img{filter:none;opacity:1}
+body.flying .clients-track{animation-play-state:paused}
+@media(hover:none){.client img{filter:none;opacity:.95}}
+
 .contact{padding:120px 0}
 .contact .grid{display:grid;grid-template-columns:1fr 1fr;gap:70px}
 .card{padding:54px 46px;position:relative;overflow:hidden;transition:transform .6s var(--ease),box-shadow .6s}
@@ -230,6 +243,9 @@ body.flying .track,body.flying .ring,body.flying .orb,body.flying .visual::befor
 body.flying #glow{opacity:0!important}
 
 @media(max-width:920px){
+  .clients{padding:80px 0 70px}
+  .client{width:160px;height:96px;padding:14px 16px}
+  .client img{max-height:60px}
   .fcols{grid-template-columns:1fr 1fr;gap:36px 28px}
   .fbrand{grid-column:1/-1}
   footer{padding-bottom:96px}
@@ -257,4 +273,5 @@ body.flying #glow{opacity:0!important}
   html{scroll-behavior:auto}
   .rv,.rv-l,.rv-r,.fade{opacity:1;transform:none}
   .hero h1 .w i{transform:none}
+  .clients-marquee{overflow-x:auto}
 }
