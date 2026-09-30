@@ -3,7 +3,8 @@ import type { LogoKey } from '../three/logos';
 import { device } from '../three/device';
 import { prefersReducedMotion } from '../three/motion';
 
-const SPARK: Partial<Record<LogoKey, string>> = { 'connect-academy': '#f5cd55' };
+// cor das faíscas/onda de choque: contrasta com o fundo da landing (amarelo do folder → azul da marca)
+const SPARK: Partial<Record<LogoKey, string>> = { 'connect-academy': '#1c4fd6' };
 let origin: HTMLElement | null = null;
 const lite = () => prefersReducedMotion() || device.lowEnd;
 // o módulo da explosão (three + shader) só é carregado quando necessário
@@ -44,5 +45,5 @@ addEventListener('popstate', () => closeLanding(true));
 /** Pré-prepara a explosão da marca em momento ocioso (evita travada no clique). */
 export function prepareLanding(key: LogoKey) {
   if (lite()) return;
-  explode().then(({ prepare }) => prepare(key));
+  explode().then(({ prepare }) => prepare(key, SPARK[key]));
 }

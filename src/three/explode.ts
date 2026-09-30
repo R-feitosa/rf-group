@@ -129,6 +129,8 @@ vec3 objectNormal = rotAx(normal, aRot.xyz, aRot.w * ep);`)
 }
 
 function sparks(color: THREE.Color, intensity: number) {
+  // cor escura (sobre fundo claro): mistura normal; cor clara (sobre fundo escuro): mistura aditiva, que "brilha"
+  const blending = color.getHSL({ h: 0, s: 0, l: 0 }).l < 0.5 ? THREE.NormalBlending : THREE.AdditiveBlending;
   const N = 320, p0 = new Float32Array(N * 3), v = new Float32Array(N * 3), pos = new Float32Array(N * 3);
   for (let i = 0; i < N; i++) {
     const a = Math.random() * Math.PI * 2, rr = Math.sqrt(Math.random()) * R;
@@ -137,10 +139,10 @@ function sparks(color: THREE.Color, intensity: number) {
     v.set([Math.cos(b) * sp, Math.sin(b) * sp + 0.03, rnd(0, 0.15)], i * 3);
   }
   const geo = new THREE.BufferGeometry(); geo.setAttribute('position', new THREE.BufferAttribute(pos, 3));
-  const mat = new THREE.PointsMaterial({ color, size: 9, map: ctx!.dotTex, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending });
+  const mat = new THREE.PointsMaterial({ color, size: 9, map: ctx!.dotTex, transparent: true, depthWrite: false, blending });
   const pts = new THREE.Points(geo, mat);
   const ring = new THREE.Mesh(new THREE.RingGeometry(0.96, 1, 128),
-    new THREE.MeshBasicMaterial({ color, transparent: true, depthWrite: false, blending: THREE.AdditiveBlending }));
+    new THREE.MeshBasicMaterial({ color, transparent: true, depthWrite: false, blending }));
   const g = new THREE.Group(); g.add(pts, ring);
   const update = (t: number) => {
     const e = 1 - Math.pow(1 - t, 3);
@@ -160,12 +162,12 @@ function sparks(color: THREE.Color, intensity: number) {
 const ready = new Map<LogoKey, Built>();
 
 /** Prepara (em momento ocioso) contexto, fragmentos e shader da explosão de uma logo. */
-export function prepare(key: LogoKey) {
+export function prepare(key: LogoKey, spark = '#ffffff') {
   if (ready.has(key)) return;
   const { r, scene, cam } = setup();
   const b = build(key, 1);
   // sonda minúscula com a logo fragmentada + faíscas: compila todos os programas usados na explosão
-  const fx = sparks(new THREE.Color('#ffffff'), 1);
+  const fx = sparks(new THREE.Color(spark), 1); // mesma cor/mistura do clique → mesmo programa de shader
   const probe = new THREE.Group(); probe.scale.setScalar(0.0001); probe.add(b.group, fx.g);
   scene.add(probe);
   r.compile(scene, cam);
@@ -184,7 +186,7 @@ type PlayOpts = {
 
 export function play(o: PlayOpts): Promise<void> {
   const { r, scene, cam } = setup();
-  prepare(o.key); // no-op se já preparado em segundo plano
+  prepare(o.key, o.spark); // no-op se já preparado em segundo plano
   const { group, mats } = ready.get(o.key)!;
   r.domElement.classList.add('on');
 

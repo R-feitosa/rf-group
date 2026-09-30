@@ -1,19 +1,74 @@
-// Conteúdo da landing da Connect Academy (modelo padrão — revisar textos com a equipe da Academy).
-// Números e site vêm de src/data.ts; o restante é texto-base editável.
+// Conteúdo da landing da Connect Academy — transcrito do "FOLDER 2026 - CONNECT ACADEMY".
+// Imagens extraídas do mesmo folder em src/assets/academy/.
 export const ACADEMY = {
-  kicker: 'Educação empresarial',
-  titleLight: 'Conhecimento que',
-  titleBold: 'provoca resultado.',
-  lead: 'Formação prática para empresários e gestores: gestão, finanças e jurídico empresarial aplicados ao dia a dia do seu negócio.',
-  whatsappText: 'Olá! Quero saber mais sobre a Connect Academy.',
-  formats: [
-    { t: 'Cursos', d: 'Conteúdo direto sobre gestão, finanças e jurídico empresarial, no seu ritmo.' },
-    { t: 'Mentorias', d: 'Acompanhamento individual com especialistas do ecossistema RF Group.' },
-    { t: 'Imersões', d: 'Encontros intensivos com aplicação imediata no próprio negócio.' },
+  tagline: 'Pessoas | Estratégia | Resultados',
+  heroTitle: ['Conhecimento', 'que gera', 'resultados reais'],
+  heroSub: 'Formações para líderes e empresas que constroem o futuro.',
+  band: ['Conexões hoje.', 'Resultados sempre.'],
+  about: 'Formações empresariais e especializadas para diferentes estágios e segmentos.',
+  pillars: [
+    { icon: 'target', t: 'Aplicação prática', d: 'Conteúdo voltado para desafios reais do dia a dia empresarial.' },
+    { icon: 'chart', t: 'Metodologia comprovada', d: 'Formações estruturadas com base em experiência de mercado.' },
+    { icon: 'people', t: 'Rede de conexões', d: 'Ambiente para troca de experiências e geração de oportunidades.' },
+    { icon: 'diamond', t: 'Resultados reais', d: 'Conhecimento que se transforma em crescimento para pessoas e empresas.' },
   ],
-  steps: [
-    { t: 'Diagnóstico', d: 'Entendemos o momento da sua empresa e os seus objetivos.' },
-    { t: 'Trilha', d: 'Indicamos o formato e os conteúdos certos para esse momento.' },
-    { t: 'Aplicação', d: 'Você aplica no negócio com o apoio de quem vive a prática.' },
+  journeyTitle: ['Uma jornada para', 'o seu próximo nível'],
+  programs: [
+    {
+      id: 'essencial',
+      name: ['Gestão', 'Essencial'],
+      lead: 'Formação prática para uma gestão mais segura e estruturada.',
+      badges: ['2 dias de formação prática', 'Turma reduzida'],
+      modulesTitle: '02 módulos da formação',
+      modules: [
+        'Pessoas (da contratação à demissão), tipos de empresa e regimes tributários',
+        'Marketing digital e funil de vendas',
+      ],
+      takeaways: [
+        'Certificado',
+        'Cartões de Aplicação',
+        'Checklists e e-books',
+        'Aulas gravadas e pílulas de vídeo',
+        'Documento final da turma',
+        'Grupo da turma no WhatsApp',
+      ],
+    },
+    {
+      id: 'integral',
+      name: ['Gestão', 'Integral'],
+      lead: 'Visão completa para empresas que querem crescer com estratégia e consistência.',
+      badges: ['4 dias de formação prática', 'Turma reduzida'],
+      modulesTitle: '04 módulos da formação',
+      modules: [
+        'Estratégia, Liderança, Pessoas, Finanças e Tributação',
+        'Estrutura, Processos e Projetos',
+        'Inteligência Comercial',
+        'Marketing, Branding e Plano Comercial',
+      ],
+      takeaways: [
+        'Encontro de onboarding online antes do primeiro encontro',
+        '4 encontros presenciais em Sobral/CE',
+        'Plano Comercial de uma página, construído na jornada',
+        'Pílulas de aula em vídeo, com acesso por 1 ano',
+        'Grupo oficial da turma no WhatsApp',
+        '9 mentorias coletivas online',
+        'Follow-up de implementação',
+        'Certificado de participação',
+      ],
+    },
   ],
+  note: 'Módulos sujeitos a ajustes conforme a turma.',
+  tracksTitle: ['Formações', 'especializadas', 'da Connect Academy.'],
+  tracks: [
+    { icon: 'med', t: 'Connect MED', d: 'Voltado para médicos que buscam aprimorar a gestão e a prática técnica.' },
+    { icon: 'juris', t: 'Connect Juris', d: 'Voltado para advogados que buscam aprimorar a gestão e a prática jurídica.' },
+    { icon: 'rh', t: 'Connect RH', d: 'Focado para gestores de RH.' },
+    { icon: 'tech', t: 'Connect Tech', d: 'Treinamento focado em inteligência artificial e otimização de processos internos.' },
+  ],
+  tracksCta: 'Sua jornada especializada começa aqui!',
+  contactTitle: 'Fale com nossa equipe',
+  contactSub: 'Solicite informações sobre as turmas.',
+  city: 'Sobral, Ceará',
+  instagram: { handle: '/connectacademyy', url: 'https://www.instagram.com/connectacademyy/' },
+  whatsappText: 'Olá! Quero informações sobre as turmas da Connect Academy.',
 };
