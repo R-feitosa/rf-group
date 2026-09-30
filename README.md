@@ -22,7 +22,7 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 | `src/components/Clients.tsx` + `src/assets/clients/` | Carrossel "Empresas que confiam no grupo" (logos do site R.Feitosa Advogados, recortadas e em WebP) |
 | `src/three/logos.json` | Vetores das logos (manual de marca, linha "Simplificação") |
 | `src/three/logos.ts` | `buildLogo()` — gera o medalhão 3D de cada uma das 6 marcas |
-| `src/three/Logo3D.tsx` | Componente de logo 3D animada usado nas seções das empresas |
+| `src/three/Logo3D.tsx` + `sharedLogos.ts` | Logo 3D animada das seções e da landing; todas desenhadas por **um único** contexto WebGL compartilhado |
 | `src/three/HeroScene.tsx` | Cena do hero: logo RF Group + 5 marcas em órbita (clicáveis) |
 | `src/three/FlyLayer.tsx` + `flight.ts` | Transição de voo: a logo clicada no hero se expande na tela e pousa na seção da empresa |
 | `src/landing/` (`AcademyLanding.tsx`, `academy.ts`, `controller.ts`) | Landing escondida da Connect Academy: mesma URL, abre ao clicar na logo da seção (textos em `academy.ts`) |
@@ -39,6 +39,7 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 - **Clique numa marca em órbita**: a logo sai da órbita, cresce girando no centro da tela (com véu desfocado ao fundo), a página rola sozinha e a logo voa até pousar exatamente no lugar da logo da empresa (~3,2 s, curvas suaves).
 - **Landing escondida (Connect Academy)**: clicar na logo da seção (ou em "Conhecer a Academy") faz a logo tremer e explodir em fragmentos com faíscas; a landing se abre em círculo a partir dela, com os fragmentos voando por cima. Fechar (botão, Esc ou "voltar" do navegador/celular) recolhe o círculo e remonta a logo no lugar. A URL não muda. Fragmentos e shaders são preparados em segundo plano; a landing fica montada (invisível) desde o carregamento.
 - **Aparelhos fracos** (`src/three/device.ts`): economia de dados, pouca memória/núcleos, GPU por software ou tempo de quadro mediano do hero acima de 34 ms (< ~30 fps, ignorando travadas da abertura) → o voo é desligado e o clique só rola suavemente até a empresa; canvases em resolução 1×. Para testar: `?fx=lite` força o modo leve, `?fx=full` força o voo.
+- **Limite de contextos WebGL**: o navegador limita quantos contextos 3D a página pode ter (≈8 no Chrome Android; passando disso ele derruba o mais antigo e o canvas fica branco). As logos das seções e da landing usam um renderizador compartilhado que desenha cada logo visível e copia para um `<canvas>` 2D — o site inteiro usa 4 contextos (topo, logos, voo, explosão).
 - **Performance**: logos construídas uma vez e compartilhadas (cache); todos os canvases são montados e têm os shaders compilados em segundo plano logo após a abertura (`src/three/warm.ts`), então clique e rolagem nunca criam contexto WebGL nem compilam shader; canvases pausam fora da tela e, durante o voo, só a logo voadora e a de destino renderizam; sem filtros CSS sobre canvases.
 - **Acessibilidade**: `prefers-reduced-motion` desliga as animações (o clique só rola até a empresa).
 
