@@ -10,6 +10,9 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import { useMagnetic } from './hooks/useMagnetic';
 import FlyLayer from './three/FlyLayer';
+import AcademyLanding from './landing/AcademyLanding';
+import { prepareLanding } from './landing/controller';
+import { scheduleWarm } from './three/warm';
 import { bindMotion, prefersReducedMotion } from './three/motion';
 import { flight } from './three/flight';
 import { prebuildLogos } from './three/logos';
@@ -26,6 +29,8 @@ export default function App() {
     const t = setTimeout(() => { setReady(true); document.body.classList.add('ready'); }, 1500);
     // depois da abertura, prepara em segundo plano todas as logos e canvases 3D
     const w = setTimeout(() => { prebuildLogos(); startWarm(); }, 3200);
+    // explosão da Academy preparada em segundo plano, depois dos canvases
+    const cancelPrep = scheduleWarm(() => prepareLanding('connect-academy'));
     const reduce = prefersReducedMotion();
 
     // barra de progresso + parallax do hero e dos visuais das empresas
@@ -54,7 +59,7 @@ export default function App() {
     };
     if (matchMedia('(pointer:fine)').matches && !reduce) addEventListener('pointermove', onMove, { passive: true });
 
-    return () => { clearTimeout(t); clearTimeout(w); removeEventListener('scroll', onScroll); removeEventListener('pointermove', onMove); };
+    return () => { clearTimeout(t); clearTimeout(w); cancelPrep(); removeEventListener('scroll', onScroll); removeEventListener('pointermove', onMove); };
   }, []);
 
   return (
@@ -77,6 +82,7 @@ export default function App() {
       </main>
       <Footer />
       <FlyLayer />
+      <AcademyLanding />
     </>
   );
 }

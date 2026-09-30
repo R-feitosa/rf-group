@@ -25,6 +25,8 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 | `src/three/Logo3D.tsx` | Componente de logo 3D animada usado nas seções das empresas |
 | `src/three/HeroScene.tsx` | Cena do hero: logo RF Group + 5 marcas em órbita (clicáveis) |
 | `src/three/FlyLayer.tsx` + `flight.ts` | Transição de voo: a logo clicada no hero se expande na tela e pousa na seção da empresa |
+| `src/landing/` (`AcademyLanding.tsx`, `academy.ts`, `controller.ts`) | Landing escondida da Connect Academy: mesma URL, abre ao clicar na logo da seção (textos em `academy.ts`) |
+| `src/three/explode.ts` | Explosão/remontagem 3D da logo (fragmentos + faíscas), adaptada de "Logos com explosão 3D" |
 | `src/three/motion.ts` | Estado global de mouse/scroll compartilhado pelas cenas |
 | `src/components/*` | Seções da página (Header, Hero, Quem somos, Empresas, Números, Contato, Footer) |
 
@@ -35,6 +37,7 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 - **Interação**: segue o mouse; inclina com a velocidade do scroll; ao passar o mouse dá um giro completo.
 - **Hero**: as 5 marcas orbitam o medalhão RF Group, fazem *flip* periódico e mostram o nome no hover; o sistema inclina conforme a página rola.
 - **Clique numa marca em órbita**: a logo sai da órbita, cresce girando no centro da tela (com véu desfocado ao fundo), a página rola sozinha e a logo voa até pousar exatamente no lugar da logo da empresa (~3,2 s, curvas suaves).
+- **Landing escondida (Connect Academy)**: clicar na logo da seção (ou em "Conhecer a Academy") faz a logo tremer e explodir em fragmentos com faíscas; a landing se abre em círculo a partir dela, com os fragmentos voando por cima. Fechar (botão, Esc ou "voltar" do navegador/celular) recolhe o círculo e remonta a logo no lugar. A URL não muda. Fragmentos e shaders são preparados em segundo plano; a landing fica montada (invisível) desde o carregamento.
 - **Aparelhos fracos** (`src/three/device.ts`): economia de dados, pouca memória/núcleos, GPU por software ou tempo de quadro mediano do hero acima de 34 ms (< ~30 fps, ignorando travadas da abertura) → o voo é desligado e o clique só rola suavemente até a empresa; canvases em resolução 1×. Para testar: `?fx=lite` força o modo leve, `?fx=full` força o voo.
 - **Performance**: logos construídas uma vez e compartilhadas (cache); todos os canvases são montados e têm os shaders compilados em segundo plano logo após a abertura (`src/three/warm.ts`), então clique e rolagem nunca criam contexto WebGL nem compilam shader; canvases pausam fora da tela e, durante o voo, só a logo voadora e a de destino renderizam; sem filtros CSS sobre canvases.
 - **Acessibilidade**: `prefers-reduced-motion` desliga as animações (o clique só rola até a empresa).

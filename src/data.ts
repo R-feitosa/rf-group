@@ -15,6 +15,8 @@ export type Unit = {
   stats: Stat[];
   cta: { label: string; href: string };
   instagram: string;
+  /** tem landing escondida (abre ao clicar na logo) */
+  landing?: boolean;
 };
 
 export const WHATSAPP = '558888441638';
@@ -47,7 +49,7 @@ export const UNITS: Unit[] = [
     instagram: 'https://www.instagram.com/connect.valley',
   },
   {
-    id: 'connect-academy', logo: 'connect-academy', motion: 'sway', color: '#c9a227',
+    id: 'connect-academy', logo: 'connect-academy', motion: 'sway', color: '#c9a227', landing: true,
     name: 'Connect Academy', tagline: 'Provocar', role: 'Educação empresarial',
     text: 'Promove eventos que unem empresários para capacitação, levando conhecimento aplicado à gestão e ao crescimento dos negócios.',
     stats: [

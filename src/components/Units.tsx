@@ -1,6 +1,7 @@
 import type { CSSProperties } from 'react';
 import { UNITS, type Unit } from '../data';
 import Logo3D from '../three/Logo3D';
+import { openLanding } from '../landing/controller';
 import Counter from './Counter';
 import { Arrow, Instagram } from './Icons';
 import Reveal, { Eyebrow } from './Reveal';
@@ -12,8 +13,14 @@ function UnitRow({ u, i }: { u: Unit; i: number }) {
       <Reveal className="visual" style={{ '--c': u.color } as CSSProperties}>
         <div className="halo" />
         <div className="shadow" />
-        <Logo3D logo={u.logo} motion={u.motion} className="logo3d" label={`Logo 3D ${u.name}`} />
-        <span className="drag-hint">passe o mouse</span>
+        <Logo3D
+          logo={u.logo}
+          motion={u.motion}
+          className={`logo3d${u.landing ? ' clickable' : ''}`}
+          label={u.landing ? `Abrir a página da ${u.name}` : `Logo 3D ${u.name}`}
+          onActivate={u.landing ? (el) => openLanding(u.logo, el) : undefined}
+        />
+        <span className={`drag-hint${u.landing ? ' on' : ''}`}>{u.landing ? 'clique na logo' : 'passe o mouse'}</span>
       </Reveal>
       <Reveal variant={even ? 'left' : 'right'}>
         <span className="idx">{String(i + 1).padStart(2, '0')} / {String(UNITS.length).padStart(2, '0')}</span>
@@ -26,6 +33,17 @@ function UnitRow({ u, i }: { u: Unit; i: number }) {
           ))}
         </div>
         <div className="links">
+          {u.landing && (
+            <button
+              className="btn solid"
+              onClick={(e) => {
+                const el = e.currentTarget.closest('.unit')?.querySelector<HTMLElement>('.logo3d');
+                if (el) openLanding(u.logo, el);
+              }}
+            >
+              <span>Conhecer a {u.name.split(' ').pop()}</span><Arrow />
+            </button>
+          )}
           <a className="btn dark" href={u.cta.href} target="_blank" rel="noopener noreferrer"><span>{u.cta.label}</span><Arrow /></a>
           <a className="ig" href={u.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram ${u.name}`}><Instagram /></a>
         </div>

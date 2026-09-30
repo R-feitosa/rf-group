@@ -6,6 +6,8 @@ import { pointer, scroll, prefersReducedMotion } from './motion';
 import { flight, useFlight } from './flight';
 import { scheduleWarm } from './warm';
 import { device } from './device';
+import { pivots } from './pivots';
+import { useLanding } from '../landing/store';
 
 export type Motion = 'sway' | 'spin' | 'float' | 'none';
 
@@ -60,6 +62,8 @@ type MedalProps = {
   hostRef: React.RefObject<HTMLElement>;
   hovered: React.MutableRefObject<boolean>;
   entered: boolean;
+  /** registra a pose em `pivots` (só a logo clicável da seção) */
+  track?: boolean;
 };
 
 /**
@@ -69,7 +73,7 @@ type MedalProps = {
  *  - segue o mouse, inclina com a velocidade do scroll;
  *  - hover: dá um giro completo (flip) e cresce um pouco.
  */
-function Medal({ logo, motion, hostRef, hovered, entered }: MedalProps) {
+function Medal({ logo, motion, hostRef, hovered, entered, track }: MedalProps) {
   const group = useLogo(logo);
   const pivot = useRef<THREE.Group>(null!);
   const st = useRef({ t0: -1, flip: 0, flipTarget: 0, wasHover: false, seed: Math.random() * 10, n: 0, cx: 0, cy: 0 });
@@ -124,6 +128,14 @@ function Medal({ logo, motion, hostRef, hovered, entered }: MedalProps) {
     p.scale.setScalar(Math.max(sc, 0.001));
   });
 
+  // registra a pose para a explosão partir do mesmo ângulo
+  useEffect(() => {
+    if (!track) return;
+    const p = pivot.current;
+    pivots.set(logo, p);
+    return () => { if (pivots.get(logo) === p) pivots.delete(logo); };
+  }, [logo, track]);
+
   return (
     <group ref={pivot}>
       <primitive object={group} />
@@ -152,36 +164,50 @@ export function useInView<T extends Element>(opts: IntersectionObserverInit = {}
 
 type Logo3DProps = {
   logo: LogoKey;
+  /** false = canvas montado mas parado (ex.: logo da landing enquanto ela está fechada) */
+  active?: boolean;
+  /** ignora o IntersectionObserver: visível sempre que `active` (logo dentro de camada fixa, ex.: landing) */
+  ignoreViewport?: boolean;
+  /** clique/Enter na logo (ex.: abrir a landing da marca) */
+  onActivate?: (el: HTMLElement) => void;
   motion?: Motion;
   className?: string;
   style?: CSSProperties;
   label?: string;
 };
 
-export default function Logo3D({ logo, motion = 'sway', className, style, label }: Logo3DProps) {
-  const { ref, inView, seen } = useInView<HTMLDivElement>({ rootMargin: '80px' });
+export default function Logo3D({ logo, motion = 'sway', className, style, label, onActivate, active = true, ignoreViewport = false }: Logo3DProps) {
+  const io = useInView<HTMLDivElement>({ rootMargin: '80px' });
+  const { ref } = io;
+  const inView = io.inView || (ignoreViewport && active);
+  const seen = io.seen || (ignoreViewport && active);
   const hovered = useRef(false);
   const f = useFlight();
   const waiting = f?.logo === logo && !f.landed; // escondida até a cópia voadora pousar
   const paused = !!f && f.logo !== logo; // durante o voo só a logo de destino renderiza
+  const land = useLanding();
+  const exploded = !!onActivate && land?.key === logo; // some enquanto a versão fragmentada está na tela
   const [warm, setWarm] = useState(false);
   useEffect(() => scheduleWarm(() => setWarm(true)), []);
   return (
     <div
       ref={ref}
       className={className}
-      style={{ ...style, opacity: waiting ? 0 : 1, transition: 'opacity .3s' }}
-      role="img"
+      style={{ ...style, opacity: waiting || exploded ? 0 : 1, transition: exploded ? 'none' : 'opacity .3s' }}
+      role={onActivate ? 'button' : 'img'}
+      tabIndex={onActivate ? 0 : undefined}
       aria-label={label ?? `Logo 3D ${logo}`}
+      onClick={onActivate ? (e) => onActivate(e.currentTarget) : undefined}
+      onKeyDown={onActivate ? (e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); onActivate(e.currentTarget); } } : undefined}
       onPointerEnter={(e) => {
         // só mouse de verdade; ignora o "hover" gerado pela rolagem automática do voo
         if (e.pointerType === 'mouse' && !flight.get()) hovered.current = true;
       }}
       onPointerLeave={() => (hovered.current = false)}
     >
-      {(warm || seen) && (
+      {(warm || (seen && active)) && (
         <Canvas
-          frameloop={inView && !paused ? 'always' : 'never'}
+          frameloop={active && inView && !paused && !(land && land.key !== logo) ? 'always' : 'never'}
           dpr={device.lowEnd ? 1 : [1, 1.75]}
           resize={{ scroll: false }}
           gl={{ antialias: true, alpha: true, toneMappingExposure: 1.05 }}
@@ -191,7 +217,7 @@ export default function Logo3D({ logo, motion = 'sway', className, style, label 
           <FitCamera distance={0.22} />
           <Lights />
           <Precompile />
-          <Medal logo={logo} motion={motion} hostRef={ref} hovered={hovered} entered={seen} />
+          <Medal logo={logo} motion={motion} hostRef={ref} hovered={hovered} entered={seen} track={!!onActivate} />
         </Canvas>
       )}
     </div>
