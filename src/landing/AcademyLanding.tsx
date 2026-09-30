@@ -3,7 +3,6 @@ import { useLanding } from './store';
 import { closeLanding } from './controller';
 import { ACADEMY } from './academy';
 import { UNITS, WHATSAPP } from '../data';
-import Logo3D from '../three/Logo3D';
 import { scheduleWarm } from '../three/warm';
 import { Arrow, Instagram, WhatsApp } from '../components/Icons';
 import logoAzul from '../assets/academy/logo-azul.webp';
@@ -60,7 +59,7 @@ export default function AcademyLanding() {
   const wa = `https://wa.me/${WHATSAPP}?text=${encodeURIComponent(ACADEMY.whatsappText)}`;
   const go = (id: string) => root.current?.querySelector(`#ca-${id}`)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 
-  // fica montada desde o carregamento (invisível): a logo 3D é preparada em segundo plano
+  // fica montada desde o carregamento (invisível); a logo 3D não aparece aqui — ela se desfaz na explosão
   return (
     <div
       ref={root}
@@ -95,9 +94,6 @@ export default function AcademyLanding() {
         </div>
         <div className="ca-hero-art" aria-hidden="true">
           <img className="ca-atlas" src={atlas} alt="" width={526} height={1004} />
-          <div className="ca-globe">
-            <Logo3D logo="connect-academy" motion="sway" className="ca-logo3d" label="Logo 3D Connect Academy" active={on} ignoreViewport />
-          </div>
         </div>
       </section>
 

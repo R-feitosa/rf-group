@@ -281,10 +281,6 @@ body.flying #glow{opacity:0!important}
 .ca-sub{margin-top:8px;font-style:italic;font-size:1.05rem;max-width:380px}
 .ca-hero-art{position:relative;justify-self:center;width:min(430px,100%);aspect-ratio:526/1004;max-height:78vh}
 .ca-atlas{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:.95}
-/* a logo 3D da Academy fica no lugar do globo que o Atlas carrega */
-.ca-globe{position:absolute;left:3%;right:3%;top:0;aspect-ratio:1}
-.ca-globe::before{content:"";position:absolute;inset:6%;border-radius:50%;background:radial-gradient(circle,rgba(10,22,80,.55),rgba(10,22,80,0) 70%);filter:blur(10px)}
-.ca-logo3d{position:absolute;inset:2%;width:96%;height:96%}
 
 /* faixa */
 .ca-band{background:var(--ca-grad);color:#fff;padding:26px 0}
