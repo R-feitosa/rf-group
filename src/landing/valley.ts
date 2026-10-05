@@ -1,4 +1,4 @@
-// Conteúdo da landing da Connect Valley — base: landing oficial (connectvaley.com.br,
+// Folder da Connect Valley (resumo; o detalhe fica no site oficial) — base: landing oficial (connectvaley.com.br,
 // repositório R-feitosa/ConnectValley-Langing-Page). Imagens do mesmo repositório em src/assets/valley/.
 export const VALLEY = {
   eventStart: '2026-10-16T08:00:00-03:00',
@@ -12,13 +12,11 @@ export const VALLEY = {
   aboutTitle: 'um ecossistema.',
   aboutText:
     'O Connect Valley é uma manifestação do espírito empreendedor, inspirado na ideia de que são os grandes pensadores, inovadores e líderes que sustentam o mundo.',
-  innovationTitle: ['Onde a inovação', 'gera negócios'],
-  innovationText: 'Reunimos os principais líderes, mentes de tecnologia e investidores em um só lugar.',
   numbers: [
-    { v: '+40', l: 'Speakers', d: 'Nomes de destaque nacional e regional' },
-    { v: '+1k', l: 'Participantes', d: 'Empreendedores e líderes reunidos' },
-    { v: '48h', l: 'Imersão', d: 'Dois dias de conteúdo e conexão intensa' },
-    { v: '7ª', l: 'Edição', d: 'Uma história de crescimento contínuo' },
+    { v: '+40', l: 'Speakers' },
+    { v: '+1k', l: 'Participantes' },
+    { v: '48h', l: 'Imersão' },
+    { v: '7ª', l: 'Edição' },
   ],
   areas: [
     { t: 'Empreendedorismo', d: 'Como construir negócios resilientes, escaláveis e lucrativos no novo cenário de mercado.' },
@@ -28,37 +26,7 @@ export const VALLEY = {
     { t: 'Tecnologia & Inovação', d: 'Tendências de tecnologia emergentes, novos modelos de negócios digitais e transformação real.' },
     { t: 'Liderança & Cultura', d: 'Como liderar equipes de alto rendimento, reter talentos e construir uma cultura inovadora.' },
   ],
-  stages: ['Palco 360°', 'Palco Work'],
-  benefits: [
-    { t: '20 horas de certificado', d: 'Certificado de 20 horas de carga horária emitido para os participantes do evento.' },
-    { t: 'Banco de talentos', d: 'Conectando empresas a profissionais e pessoas a oportunidades.' },
-    { t: 'Networking estratégico', d: 'Entre empresários, gestores, profissionais e estudantes.' },
-    { t: 'Conexão entre empresas e talentos', d: 'Empresas e talentos se encontram durante o evento.' },
-    { t: 'Tudo em um único ambiente', d: 'Conteúdos, palestras e experiências centralizados em um único ambiente.' },
-  ],
-  speakers: [
-    { id: 'roneely', n: 'Roneely Feitosa', r: 'RF Group' },
-    { id: 'tayse', n: 'Tayse Feitosa', r: 'Sócia/Founder · Connect Valley' },
-    { id: 'severino', n: 'Severino Neto', r: 'São Luiz Supermercado' },
-    { id: 'nelson', n: 'Nelson Rossi', r: 'Grendene' },
-    { id: 'belini', n: 'Belini Júnior', r: 'Gateway Soluções' },
-  ],
-  speakersMore: '+ de 20 palestrantes confirmados no line-up',
-  tickets: [
-    { name: 'Lote Promocional', price: 'R$ 167,00', status: 'closed' as const },
-    { name: '1º Lote', price: 'R$ 207,00', status: 'current' as const },
-    { name: '2º Lote', price: 'Em breve', status: 'soon' as const },
-    { name: '3º Lote', price: 'Em breve', status: 'soon' as const },
-  ],
-  ticketPerks: ['Acesso aos 2 dias de evento', 'Acesso à plenária principal', 'Networking de alto nível', 'Certificado de participação'],
-  sponsorTiers: [
-    { t: 'Diamante', n: 4 },
-    { t: 'Ouro+', n: 13 },
-    { t: 'Ouro', n: 11 },
-    { t: 'Prata', n: 17 },
-  ],
   finalTitle: ['O futuro', 'começa em', 'outubro'],
-  finalSub: 'A maior imersão de negócios e inovação do interior do Ceará.',
   links: {
     tickets: 'https://doity.com.br/connect-valley-2026',
     app: 'https://connect-valley-app.vercel.app/',

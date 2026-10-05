@@ -423,7 +423,14 @@ body.flying #glow{opacity:0!important}
 .cv-numbers div{padding:26px 22px;border-radius:18px;background:linear-gradient(160deg,rgba(255,255,255,.06),rgba(255,255,255,.01));border:1px solid rgba(255,255,255,.1)}
 .cv-numbers b{font-family:var(--cv-disp);font-weight:400;font-size:3.2rem;line-height:1;color:var(--cv-g)}
 .cv-numbers span{display:block;margin-top:6px;font-weight:800;text-transform:uppercase;letter-spacing:.12em;font-size:.78rem;color:#fff}
-.cv-numbers p{margin-top:6px;font-size:.86rem;color:rgba(255,255,255,.6);line-height:1.45}
+.cv-chips{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin-top:26px}
+.cv-chips li{padding:8px 14px;border-radius:999px;border:1px solid rgba(242,201,76,.35);color:#f4e2a6;font-size:.82rem;font-weight:700}
+.cv-site{margin:34px auto 0;display:inline-grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:22px;align-items:center;text-align:left;padding:20px 30px;border-radius:22px;background:var(--cv-g);color:var(--cv-bg);box-shadow:0 0 60px -12px rgba(242,201,76,.7);transition:transform .35s var(--ease)}
+.cv-site:hover{transform:translateY(-3px)}
+.cv-site span{font-size:.7rem;font-weight:900;letter-spacing:.24em;text-transform:uppercase}
+.cv-site b{grid-row:2;font-family:var(--cv-disp);font-weight:400;font-size:clamp(1.6rem,4vw,2.4rem);line-height:1}
+.cv-site svg{grid-row:1/3;grid-column:2;width:30px;height:30px}
+.cv-final .cv-kicker{margin-bottom:14px}
 .cv-areas{background:linear-gradient(180deg,var(--cv-bg),var(--cv-bg2))}
 .cv-stages{display:flex;gap:10px;margin-top:22px;flex-wrap:wrap}
 .cv-stages span{padding:8px 16px;border-radius:999px;background:rgba(0,85,255,.18);border:1px solid rgba(0,85,255,.5);color:#cfe0ff;font-weight:700;font-size:.82rem;letter-spacing:.06em;text-transform:uppercase}

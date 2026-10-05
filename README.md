@@ -26,7 +26,7 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 | `src/three/HeroScene.tsx` | Cena do hero: logo RF Group + 5 marcas em órbita (clicáveis) |
 | `src/three/FlyLayer.tsx` + `flight.ts` | Transição de voo: a logo clicada no hero se expande na tela e pousa na seção da empresa |
 | `src/landing/` (`AcademyLanding.tsx`, `academy.ts`, `controller.ts`) | Landing escondida da Connect Academy, montada a partir do **Folder 2026** (textos em `academy.ts`, imagens do folder em `src/assets/academy/`): mesma URL, abre ao clicar na logo da seção |
-| `src/landing/ValleyLanding.tsx` + `valley.ts` | Landing escondida da **Connect Valley** em formato de folder, a partir da landing oficial (repositório `ConnectValley-Langing-Page`; imagens em `src/assets/valley/`) |
+| `src/landing/ValleyLanding.tsx` + `valley.ts` | Folder escondido da **Connect Valley**: resumo do evento que sempre leva ao site oficial (connectvaley.com.br), sem substituí-lo; base: landing oficial (repositório `ConnectValley-Langing-Page`; imagens em `src/assets/valley/`) |
 | `src/three/explode.ts` | Explosão/remontagem 3D da logo (fragmentos + faíscas), adaptada de "Logos com explosão 3D" |
 | `src/three/motion.ts` | Estado global de mouse/scroll compartilhado pelas cenas |
 | `src/components/*` | Seções da página (Header, Hero, Quem somos, Empresas, Números, Contato, Footer) |

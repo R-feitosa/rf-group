@@ -12,13 +12,7 @@ import g1 from '../assets/valley/g1.webp';
 import g2 from '../assets/valley/g2.webp';
 import g3 from '../assets/valley/g3.webp';
 import g4 from '../assets/valley/g4.webp';
-import dBnb from '../assets/valley/d-bnb.webp';
-import dHws from '../assets/valley/d-hws.webp';
-import dSobral from '../assets/valley/d-sobral.webp';
-import dDr from '../assets/valley/d-dr.webp';
 
-const SPEAKER_IMG = import.meta.glob<string>('../assets/valley/sp-*.webp', { eager: true, import: 'default' });
-const speakerImg = (id: string) => SPEAKER_IMG[`../assets/valley/sp-${id}.webp`];
 const unit = UNITS.find((u) => u.id === 'connect-valley')!;
 const L = VALLEY.links;
 
@@ -35,7 +29,10 @@ function useCountdown(target: string, running: boolean) {
 }
 const pad = (n: number) => String(n).padStart(2, '0');
 
-/** Landing da Connect Valley em formato de folder (base: landing oficial). Mesma URL; abre em círculo a partir da logo explodida. */
+/**
+ * Folder da Connect Valley: resumo do evento que sempre aponta para o site oficial (connectvaley.com.br),
+ * sem substituí-lo. Mesma URL; abre em círculo a partir da logo explodida.
+ */
 export default function ValleyLanding() {
   const s = useLanding();
   const root = useRef<HTMLDivElement>(null);
@@ -75,9 +72,10 @@ export default function ValleyLanding() {
       {...(!active ? { inert: '' } : {})}
     >
       {armed && (<>
+      {/* faixa fixa: o folder resume, o site oficial detalha */}
       <div className="cv-strip">
-        <span>{VALLEY.badge}</span>
-        <a href={L.tickets} {...ext}>Garantir agora →</a>
+        <span>Programação, palestrantes e ingressos no site oficial</span>
+        <a href={L.site} {...ext}>connectvaley.com.br →</a>
       </div>
 
       <div className="cv-wrap cv-nav">
@@ -85,7 +83,7 @@ export default function ValleyLanding() {
           <span aria-hidden="true">←</span> Voltar ao RF Group
         </button>
         <img className="cv-nav-logo" src={icone} alt="" width={40} height={40} />
-        <a className="cv-btn outline sm" href={L.app} {...ext}>Acesse o app</a>
+        <a className="cv-btn outline sm" href={L.site} {...ext}>Site oficial</a>
       </div>
 
       {/* capa */}
@@ -93,7 +91,6 @@ export default function ValleyLanding() {
         <span className="cv-outline" aria-hidden="true">DO INTERIOR</span>
         <div className="cv-wrap cv-hero-in">
           <img className="cv-logo" src={logo} alt="Connect Valley 2026" width={948} height={246} />
-          <span className="cv-badge"><i />{VALLEY.badge}</span>
           <h1>{VALLEY.heroTitle}</h1>
           <p className="cv-lead">{VALLEY.heroSub}</p>
           <div className="cv-date"><b>{VALLEY.dateLabel}</b><span>{VALLEY.city}</span></div>
@@ -107,8 +104,8 @@ export default function ValleyLanding() {
             </div>
           )}
           <div className="cv-cta">
-            <a className="cv-btn gold" href={L.tickets} {...ext}><span>Garantir minha vaga</span><Arrow /></a>
-            <a className="cv-btn outline" href={L.app} {...ext}><span>Acesse o app</span></a>
+            <a className="cv-btn gold" href={L.site} {...ext}><span>Acessar o site oficial</span><Arrow /></a>
+            <a className="cv-btn outline" href={L.tickets} {...ext}><span>Ingressos</span></a>
           </div>
         </div>
       </section>
@@ -117,119 +114,41 @@ export default function ValleyLanding() {
         <div>{[...VALLEY.ticker, ...VALLEY.ticker, ...VALLEY.ticker, ...VALLEY.ticker].map((t, i) => <span key={i}>{t}</span>)}</div>
       </div>
 
-      {/* ecossistema + números */}
+      {/* o essencial, em formato de folder */}
       <section className="cv-sec cv-about">
         <div className="cv-wrap cv-about-grid">
           <div>
             <p className="cv-kicker">Save the date · 16 e 17 de outubro</p>
             <h2 className="cv-h2">{VALLEY.aboutKicker}<br /><em>{VALLEY.aboutTitle}</em></h2>
             <p className="cv-text">{VALLEY.aboutText}</p>
-            <h3 className="cv-h3">{VALLEY.innovationTitle[0]} <em>{VALLEY.innovationTitle[1]}</em></h3>
-            <p className="cv-text">{VALLEY.innovationText}</p>
+            <ul className="cv-chips">{VALLEY.areas.map((a) => <li key={a.t}>{a.t}</li>)}</ul>
           </div>
           <div className="cv-numbers">
             {VALLEY.numbers.map((n) => (
-              <div key={n.l}><b>{n.v}</b><span>{n.l}</span><p>{n.d}</p></div>
+              <div key={n.l}><b>{n.v}</b><span>{n.l}</span></div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* áreas de conteúdo */}
-      <section className="cv-sec cv-areas">
-        <div className="cv-wrap">
-          <p className="cv-kicker">Mergulhe fundo</p>
-          <h2 className="cv-h2">Áreas de <em>conteúdo</em></h2>
-          <div className="cv-stages">{VALLEY.stages.map((st) => <span key={st}>{st}</span>)}</div>
-          <ol className="cv-area-grid">
-            {VALLEY.areas.map((a, i) => (
-              <li key={a.t}><span>{String(i + 1).padStart(2, '0')}</span><h3>{a.t}</h3><p>{a.d}</p></li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      {/* galeria */}
       <div className="cv-gallery" aria-label="Edições anteriores">
         {[g1, g2, g3, g4].map((g, i) => <img key={i} src={g} alt="" width={900} height={600} loading="lazy" />)}
       </div>
 
-      {/* palestrantes */}
-      <section className="cv-sec cv-speakers">
-        <div className="cv-wrap">
-          <p className="cv-kicker">Line-up</p>
-          <h2 className="cv-h2">Palestrantes <em>confirmados</em></h2>
-          <ul className="cv-sp-grid">
-            {VALLEY.speakers.map((sp) => (
-              <li key={sp.id}>
-                <img src={speakerImg(sp.id)} alt={sp.n} width={420} height={560} loading="lazy" />
-                <div><b>{sp.n}</b><span>{sp.r}</span></div>
-              </li>
-            ))}
-          </ul>
-          <p className="cv-more">{VALLEY.speakersMore}</p>
-        </div>
-      </section>
-
-      {/* benefícios */}
-      <section className="cv-sec cv-benefits">
-        <div className="cv-wrap cv-ben-grid">
-          <div>
-            <p className="cv-kicker">O que você leva</p>
-            <h2 className="cv-h2">Benefícios e <em>experiências</em></h2>
-            <p className="cv-text">Muito além das palestras: certificação, oportunidades e conexões que seguem depois do evento.</p>
-            <a className="cv-btn outline" href={L.app} {...ext}><span>Aplicativo oficial</span><Arrow /></a>
-          </div>
-          <ul className="cv-ben-list">
-            {VALLEY.benefits.map((b) => <li key={b.t}><h3>{b.t}</h3><p>{b.d}</p></li>)}
-          </ul>
-        </div>
-      </section>
-
-      {/* ingressos */}
-      <section className="cv-sec cv-tickets">
-        <div className="cv-wrap">
-          <p className="cv-kicker">Vendas iniciadas</p>
-          <h2 className="cv-h2">Garanta seu <em>lugar</em></h2>
-          <div className="cv-tk-grid">
-            {VALLEY.tickets.map((t) => (
-              <div key={t.name} className={`cv-tk ${t.status}`}>
-                {t.status === 'current' && <span className="cv-tk-tag">Lote atual</span>}
-                <h3>{t.name}</h3>
-                <b>{t.price}</b>
-                <ul>{VALLEY.ticketPerks.map((p) => <li key={p}>{p}</li>)}</ul>
-                {t.status === 'current'
-                  ? <a className="cv-btn gold" href={L.tickets} {...ext}><span>Comprar agora</span></a>
-                  : <span className="cv-tk-state">{t.status === 'closed' ? 'Encerrado' : 'Em breve'}</span>}
-              </div>
-            ))}
-          </div>
-          <p className="cv-note">Valores conforme a landing oficial; confira a disponibilidade na página de ingressos.</p>
-        </div>
-      </section>
-
-      {/* construtores do vale */}
-      <section className="cv-sec cv-sponsors">
-        <div className="cv-wrap">
-          <p className="cv-kicker">Quem faz acontecer</p>
-          <h2 className="cv-h2">Construtores <em>do Vale</em></h2>
-          <div className="cv-tiers">{VALLEY.sponsorTiers.map((t) => <span key={t.t}><b>{t.n}</b>{t.t}</span>)}</div>
-          <div className="cv-diamond">
-            {[[dBnb, 'Banco do Nordeste'], [dHws, 'Grupo HWS'], [dSobral, 'Prefeitura de Sobral'], [dDr, 'D&R']].map(([src, alt]) => (
-              <img key={alt} src={src} alt={alt} loading="lazy" />
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* fechamento */}
+      {/* chamada para o site oficial */}
       <section className="cv-final">
         <div className="cv-wrap">
+          <p className="cv-kicker">Tudo sobre o evento</p>
           <h2>{VALLEY.finalTitle[0]}<br />{VALLEY.finalTitle[1]} <em>{VALLEY.finalTitle[2]}</em></h2>
-          <p>{VALLEY.dateLabel} · {VALLEY.city}. {VALLEY.finalSub}</p>
+          <p>Programação completa, palestrantes, ingressos e patrocínio estão no site oficial do Connect Valley.</p>
+          <a className="cv-site" href={L.site} {...ext}>
+            <span>Site oficial</span>
+            <b>connectvaley.com.br</b>
+            <Arrow />
+          </a>
           <div className="cv-cta center">
-            <a className="cv-btn gold" href={L.tickets} {...ext}><span>Garantir minha vaga</span><Arrow /></a>
-            <a className="cv-btn outline" href={wa} {...ext}><WhatsApp /><span>Suporte WhatsApp</span></a>
+            <a className="cv-btn outline" href={L.app} {...ext}><span>App do evento</span></a>
+            <a className="cv-btn outline" href={wa} {...ext}><WhatsApp /><span>WhatsApp</span></a>
             <a className="cv-btn outline" href={unit.instagram} {...ext}><Instagram /><span>Instagram</span></a>
           </div>
         </div>
