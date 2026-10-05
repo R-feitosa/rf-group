@@ -41,7 +41,7 @@ function UnitRow({ u, i }: { u: Unit; i: number }) {
                 if (el) openLanding(u.logo, el);
               }}
             >
-              <span>Conhecer a {u.name.split(' ').pop()}</span><Arrow />
+              <span>{u.landingLabel ?? `Conhecer a ${u.name.split(' ').pop()}`}</span><Arrow />
             </button>
           )}
           <a className="btn dark" href={u.cta.href} target="_blank" rel="noopener noreferrer"><span>{u.cta.label}</span><Arrow /></a>

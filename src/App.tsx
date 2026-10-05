@@ -13,6 +13,7 @@ import FlyLayer from './three/FlyLayer';
 import AcademyLanding from './landing/AcademyLanding';
 import ValleyLanding from './landing/ValleyLanding';
 import ImoveisLanding from './landing/ImoveisLanding';
+import AdvogadosLanding from './landing/AdvogadosLanding';
 import { prepareLanding } from './landing/controller';
 import { scheduleWarm } from './three/warm';
 import { bindMotion, prefersReducedMotion } from './three/motion';
@@ -35,6 +36,7 @@ export default function App() {
     const cancelPrep = scheduleWarm(() => prepareLanding('connect-academy'));
     const cancelPrep2 = scheduleWarm(() => prepareLanding('connect-valley'));
     const cancelPrep3 = scheduleWarm(() => prepareLanding('feitosa-imobiliarias'));
+    const cancelPrep4 = scheduleWarm(() => prepareLanding('feitosa-advogados'));
     const reduce = prefersReducedMotion();
 
     // barra de progresso + parallax do hero e dos visuais das empresas
@@ -63,7 +65,7 @@ export default function App() {
     };
     if (matchMedia('(pointer:fine)').matches && !reduce) addEventListener('pointermove', onMove, { passive: true });
 
-    return () => { clearTimeout(t); clearTimeout(w); cancelPrep(); cancelPrep2(); cancelPrep3(); removeEventListener('scroll', onScroll); removeEventListener('pointermove', onMove); };
+    return () => { clearTimeout(t); clearTimeout(w); cancelPrep(); cancelPrep2(); cancelPrep3(); cancelPrep4(); removeEventListener('scroll', onScroll); removeEventListener('pointermove', onMove); };
   }, []);
 
   return (
@@ -89,6 +91,7 @@ export default function App() {
       <AcademyLanding />
       <ValleyLanding />
       <ImoveisLanding />
+      <AdvogadosLanding />
     </>
   );
 }

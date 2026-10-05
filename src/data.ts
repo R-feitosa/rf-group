@@ -17,6 +17,8 @@ export type Unit = {
   instagram: string;
   /** tem landing escondida (abre ao clicar na logo) */
   landing?: boolean;
+  /** texto do botão que abre a landing (padrão: "Conhecer a <última palavra do nome>") */
+  landingLabel?: string;
 };
 
 export const WHATSAPP = '558888441638';
@@ -26,7 +28,7 @@ export const INSTAGRAM_GROUP = 'https://www.instagram.com/rfeitosagroup';
 
 export const UNITS: Unit[] = [
   {
-    id: 'feitosa-advogados', logo: 'feitosa-advogados', motion: 'sway', color: '#5f0006',
+    id: 'feitosa-advogados', logo: 'feitosa-advogados', motion: 'sway', color: '#5f0006', landing: true, landingLabel: 'Conhecer o escritório',
     name: 'R.Feitosa Advogados', tagline: 'Obsessão', role: 'Núcleo jurídico',
     text: 'Unindo técnica e estratégia para transformar desafios legais em soluções inteligentes.',
     stats: [
@@ -34,7 +36,7 @@ export const UNITS: Unit[] = [
       { value: 5000, suffix: '+', label: 'casos de sucesso' },
       { value: 1.8, decimals: 1, prefix: 'R$ ', suffix: ' bi', label: 'em gestão patrimonial' },
     ],
-    cta: { label: 'Visitar site', href: 'https://rfeitosa.com.br/' },
+    cta: { label: 'Visitar site', href: 'https://site-sdvogados.vercel.app/' },
     instagram: 'https://www.instagram.com/rfeitosadvogados',
   },
   {
@@ -71,7 +73,7 @@ export const UNITS: Unit[] = [
     instagram: 'https://www.instagram.com/ecosolucoesemp',
   },
   {
-    id: 'feitosa-imoveis', logo: 'feitosa-imobiliarias', motion: 'sway', color: '#212965', landing: true,
+    id: 'feitosa-imoveis', logo: 'feitosa-imobiliarias', motion: 'sway', color: '#212965', landing: true, landingLabel: 'Conhecer os imóveis',
     name: 'Feitosa Imóveis', tagline: 'Servir', role: 'Locação e administração',
     text: 'Locação e administração de imóveis com atendimento humano, transparência e cuidado com o patrimônio.',
     stats: [

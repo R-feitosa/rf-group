@@ -556,9 +556,79 @@ body.flying #glow{opacity:0!important}
 .fi-hero-in{opacity:0;transform:translateY(24px) scale(.97);transition:opacity .8s .35s,transform 1s .35s cubic-bezier(.2,.75,.1,1)}
 .land.on .fi-hero-in{opacity:1;transform:none}
 
+/* ===== R.Feitosa Advogados (base: site oficial) ===== */
+.land-adv{--ra-p:#561010;--ra-p2:#7a1a1a;--ra-d:#2a0507;--ra-bg:#120405;--ra-g:#d9b46a;--ra-disp:'Outfit','Source Sans 3 Variable',sans-serif;
+  background:radial-gradient(circle at var(--x) var(--y),rgba(217,180,106,.14),transparent 40%),var(--ra-bg);color:#f1e9e9;font-family:var(--sans)}
+.ra-wrap{max-width:1180px;margin:0 auto;padding-left:24px;padding-right:24px}
+.land-adv h1 b,.land-adv h2 b{font-weight:600;color:var(--ra-g)}
+.ra-strip{background:var(--ra-p);color:#fff;display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 16px;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700}
+.ra-strip a{background:#fff;color:var(--ra-p);padding:5px 12px;border-radius:999px;letter-spacing:.08em;font-weight:800}
+.ra-nav{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-top:16px;padding-bottom:16px}
+.ra-back{font:inherit;font-weight:600;font-size:.92rem;color:#fff;background:none;border:0;cursor:pointer;display:inline-flex;gap:8px;align-items:center;padding:8px 0}
+.ra-back:hover{color:var(--ra-g)}
+.ra-back:focus-visible,.ra-btn:focus-visible,.ra-site:focus-visible{outline:2px solid var(--ra-g);outline-offset:4px}
+.ra-btn{display:inline-flex;align-items:center;gap:10px;padding:14px 26px;border-radius:999px;font-weight:600;font-size:.92rem;border:1.5px solid transparent;transition:transform .35s var(--ease),background .35s,color .35s,border-color .35s}
+.ra-btn svg{width:18px;height:18px}
+.ra-btn.light{background:#fff;color:var(--ra-p)}
+.ra-btn.light:hover{transform:translateY(-2px);background:#f3e9e9}
+.ra-btn.ghost{border-color:rgba(255,255,255,.35);color:#fff;background:rgba(255,255,255,.06)}
+.ra-btn.ghost:hover{border-color:var(--ra-g);color:var(--ra-g)}
+.ra-btn.sm{padding:9px 18px;font-size:.8rem}
+.ra-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.ra-cta.center{justify-content:center}
+
+/* capa */
+.ra-hero{position:relative;overflow:hidden;margin:0 12px;border-radius:24px;padding:60px 0 44px;background:linear-gradient(180deg,rgba(18,4,5,.45),rgba(42,5,7,.7) 45%,rgba(18,4,5,.95)),var(--hero) center/cover no-repeat}
+.ra-hero-in{position:relative}
+.ra-logo{width:min(300px,64%);height:auto}
+.ra-hero h1{margin-top:34px;font-family:var(--ra-disp);font-weight:300;font-size:clamp(2.4rem,6vw,5rem);line-height:1.04;color:#fff}
+.ra-lead{margin-top:16px;max-width:560px;font-size:1.08rem;line-height:1.6;color:rgba(255,255,255,.8)}
+.ra-nums{display:grid;grid-template-columns:repeat(3,minmax(0,220px));gap:12px;margin-top:40px}
+.ra-nums div{padding:16px 18px;border-radius:16px;background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);backdrop-filter:blur(6px)}
+.ra-nums b{display:block;font-family:var(--ra-disp);font-weight:600;font-size:clamp(1.3rem,2.6vw,2.1rem);line-height:1.1;color:#fff}
+.ra-nums span{display:block;line-height:1.35;font-size:.82rem;color:rgba(255,255,255,.7)}
+
+/* áreas e sócios */
+.ra-sec{padding:84px 0 70px}
+.ra-kicker{font-size:.72rem;letter-spacing:.28em;text-transform:uppercase;font-weight:700;color:var(--ra-g)}
+.ra-h2{margin-top:10px;font-family:var(--ra-disp);font-weight:300;font-size:clamp(2rem,4.4vw,3.2rem);line-height:1.08;color:#fff}
+.ra-h2.ra-gap{margin-top:64px}
+.ra-chips{list-style:none;display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.ra-chips li{padding:10px 16px;border-radius:999px;background:rgba(122,26,26,.35);border:1px solid rgba(217,180,106,.3);color:#f3e2bf;font-size:.9rem;font-weight:600}
+.ra-team{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:26px}
+.ra-team li{position:relative;border-radius:20px;overflow:hidden;background:var(--ra-d);border:1px solid rgba(255,255,255,.08)}
+.ra-team img{display:block;width:100%;height:auto;aspect-ratio:4/5;object-position:top;object-fit:cover;transition:transform .7s var(--ease)}
+.ra-team li:hover img{transform:scale(1.04)}
+.ra-team li>div{position:absolute;left:0;right:0;bottom:0;padding:50px 20px 18px;background:linear-gradient(transparent,rgba(18,4,5,.94))}
+.ra-team h3{font-family:var(--ra-disp);font-weight:600;font-size:1.25rem;color:#fff}
+.ra-team span{display:block;line-height:1.35;font-size:.84rem;color:var(--ra-g)}
+.ra-facts{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:40px}
+.ra-facts div{padding:20px 22px;border-radius:16px;background:rgba(255,255,255,.04);border-left:3px solid var(--ra-g)}
+.ra-facts span{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:var(--ra-g)}
+.ra-facts p{margin-top:6px;color:rgba(255,255,255,.82);line-height:1.5}
+
+/* chamada final */
+.ra-final{padding:96px 0;text-align:center;background:radial-gradient(ellipse at 50% 100%,rgba(122,26,26,.55),transparent 65%),var(--ra-bg)}
+.ra-final h2{margin-top:12px;font-family:var(--ra-disp);font-weight:300;font-size:clamp(2.2rem,5.5vw,4rem);line-height:1.06;color:#fff}
+.ra-final>div>p:not(.ra-kicker){margin:18px auto 0;max-width:600px;color:rgba(255,255,255,.75);font-size:1.05rem}
+.ra-site{margin:34px auto 0;display:inline-grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:22px;align-items:center;text-align:left;padding:20px 30px;border-radius:22px;background:#fff;color:var(--ra-p);box-shadow:0 20px 60px -20px rgba(217,180,106,.55);transition:transform .35s var(--ease)}
+.ra-site:hover{transform:translateY(-3px)}
+.ra-site span{font-size:.7rem;font-weight:800;letter-spacing:.24em;text-transform:uppercase;color:#9a6b2a}
+.ra-site b{grid-row:2;font-family:var(--ra-disp);font-weight:600;font-size:clamp(1.4rem,4vw,2.2rem);line-height:1.1}
+.ra-site svg{grid-row:1/3;grid-column:2;width:30px;height:30px}
+.ra-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:24px;padding-bottom:30px;border-top:1px solid rgba(255,255,255,.1);font-size:.84rem;color:rgba(255,255,255,.6)}
+.ra-foot a{color:var(--ra-g)}
+
+.ra-hero-in{opacity:0;transform:translateY(24px) scale(.97);transition:opacity .8s .35s,transform 1s .35s cubic-bezier(.2,.75,.1,1)}
+.land.on .ra-hero-in{opacity:1;transform:none}
+
 @media(max-width:920px){
   .cv-nav .cv-btn{display:none}
   .fi-grid{grid-template-columns:1fr 1fr}
+  .ra-team{gap:10px}
+  .ra-facts{grid-template-columns:1fr}
+  .ra-sec{padding:60px 0}
+  .ra-final{padding:76px 0}
   .fi-sec{padding:60px 0}
   .fi-final{padding:76px 0}
   .cv-about-grid,.cv-ben-grid{grid-template-columns:1fr;gap:40px}
@@ -613,6 +683,18 @@ body.flying #glow{opacity:0!important}
   .cv-ticker div,.cv-badge i{animation:none}
 }
 @media(max-width:560px){
+  .ra-hero{margin:0 8px;border-radius:18px;padding:40px 0 28px}
+  .ra-nums{grid-template-columns:1fr 1fr 1fr;gap:6px}
+  .ra-nums div{padding:12px 10px}
+  .ra-nums span{font-size:.7rem}
+  .ra-team li>div{position:static;padding:10px 10px 12px;background:none}
+  .ra-team img{aspect-ratio:3/4}
+  .ra-nums b{font-size:1.12rem;white-space:nowrap}
+  .ra-team h3{font-size:.92rem}
+  .ra-team span{font-size:.72rem}
+  .ra-chips li{padding:8px 12px;font-size:.8rem}
+  .ra-strip{font-size:.62rem;letter-spacing:.1em;text-align:center;padding:8px 12px;gap:8px}
+  .ra-site{padding:18px 22px;column-gap:14px}
   .fi-grid{gap:10px}
   .fi-grid a{border-radius:14px}
   .fi-grid a>div{padding:12px 12px 14px}
