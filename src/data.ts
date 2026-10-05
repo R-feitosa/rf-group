@@ -38,14 +38,14 @@ export const UNITS: Unit[] = [
     instagram: 'https://www.instagram.com/rfeitosadvogados',
   },
   {
-    id: 'connect-valley', logo: 'connect-valley', motion: 'float', color: '#0a0e2b',
+    id: 'connect-valley', logo: 'connect-valley', motion: 'float', color: '#0a0e2b', landing: true,
     name: 'Connect Valley', tagline: 'Despertar', role: 'Eventos e networking',
     text: 'Braço de eventos e networking do grupo, criando experiências empreendedoras que conectam pessoas, ideias e negócios.',
     stats: [
       { value: 800, suffix: '+', label: 'participantes' },
       { value: 80, suffix: '+', label: 'patrocinadores' },
     ],
-    cta: { label: 'Visitar site', href: 'https://connect-valley.vercel.app/' },
+    cta: { label: 'Visitar site', href: 'https://connectvaley.com.br/' },
     instagram: 'https://www.instagram.com/connect.valley',
   },
   {

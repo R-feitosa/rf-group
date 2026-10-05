@@ -4,7 +4,7 @@ import { device } from '../three/device';
 import { prefersReducedMotion } from '../three/motion';
 
 // cor das faíscas/onda de choque: contrasta com o fundo da landing (amarelo do folder → azul da marca)
-const SPARK: Partial<Record<LogoKey, string>> = { 'connect-academy': '#1c4fd6' };
+const SPARK: Partial<Record<LogoKey, string>> = { 'connect-academy': '#1c4fd6', 'connect-valley': '#f6ce54' };
 let origin: HTMLElement | null = null;
 const lite = () => prefersReducedMotion() || device.lowEnd;
 // o módulo da explosão (three + shader) só é carregado quando necessário
