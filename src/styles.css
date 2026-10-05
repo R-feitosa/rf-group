@@ -487,8 +487,80 @@ body.flying #glow{opacity:0!important}
 .cv-hero-in{opacity:0;transform:translateY(24px) scale(.97);transition:opacity .8s .35s,transform 1s .35s cubic-bezier(.2,.75,.1,1)}
 .land.on .cv-hero-in{opacity:1;transform:none}
 
+/* ===== Feitosa Imóveis (base: catálogo oficial) ===== */
+.land-imoveis{--fi-n:#263F86;--fi-n2:#374E90;--fi-d:#1B2E63;--fi-ink:#111d3d;--fi-mist:#DDE1EC;--fi-g:#C9A227;--fi-g2:#e3c25a;--fi-disp:'Playfair Display',Georgia,serif;
+  background:radial-gradient(circle at var(--x) var(--y),rgba(201,162,39,.16),transparent 40%),var(--fi-ink);color:#e9ecf4;font-family:var(--sans)}
+.fi-wrap{max-width:1180px;margin:0 auto;padding-left:24px;padding-right:24px}
+.land-imoveis em{font-style:italic;color:var(--fi-g2)}
+.fi-strip{background:var(--fi-g);color:var(--fi-ink);display:flex;justify-content:center;align-items:center;gap:18px;flex-wrap:wrap;padding:10px 16px;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;font-weight:800}
+.fi-strip a{background:var(--fi-ink);color:var(--fi-g2);padding:5px 12px;border-radius:999px;letter-spacing:.08em}
+.fi-nav{display:flex;justify-content:space-between;align-items:center;gap:14px;padding-top:16px;padding-bottom:16px}
+.fi-back{font:inherit;font-weight:600;font-size:.92rem;color:#fff;background:none;border:0;cursor:pointer;display:inline-flex;gap:8px;align-items:center;padding:8px 0}
+.fi-back:hover{color:var(--fi-g2)}
+.fi-back:focus-visible,.fi-btn:focus-visible,.fi-grid a:focus-visible,.fi-site:focus-visible{outline:2px solid var(--fi-g2);outline-offset:4px}
+.fi-btn{display:inline-flex;align-items:center;gap:10px;padding:15px 26px;border-radius:999px;font-weight:700;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;border:1.5px solid transparent;transition:transform .35s var(--ease),background .35s,color .35s,box-shadow .35s}
+.fi-btn svg{width:18px;height:18px}
+.fi-btn.gold{background:var(--fi-g);color:var(--fi-ink);box-shadow:0 14px 36px -14px rgba(201,162,39,.8)}
+.fi-btn.gold:hover{transform:translateY(-2px);background:var(--fi-g2)}
+.fi-btn.ghost{border-color:rgba(255,255,255,.45);color:#fff}
+.fi-btn.ghost:hover{border-color:var(--fi-g2);color:var(--fi-g2)}
+.fi-btn.sm{padding:10px 18px;font-size:.7rem}
+.fi-cta{display:flex;gap:12px;flex-wrap:wrap;margin-top:30px}
+.fi-cta.center{justify-content:center}
+
+/* capa */
+.fi-hero{position:relative;overflow:hidden;padding:56px 0 80px;background:linear-gradient(180deg,rgba(17,29,61,.55),rgba(27,46,99,.82) 55%,var(--fi-ink)),var(--hero) center/cover no-repeat}
+.fi-hero-in{position:relative;display:flex;flex-direction:column;align-items:center;text-align:center}
+.fi-logo{width:min(380px,78%);height:auto;filter:drop-shadow(0 6px 24px rgba(0,0,0,.35))}
+.fi-kicker{font-size:.72rem;letter-spacing:.3em;text-transform:uppercase;font-weight:700;color:var(--fi-g2)}
+.fi-hero .fi-kicker{margin-top:34px}
+.fi-hero h1{margin-top:12px;font-family:var(--fi-disp);font-weight:600;font-size:clamp(2.4rem,6vw,4.6rem);line-height:1.02;color:#fff}
+.fi-lead{margin-top:16px;max-width:640px;font-size:1.08rem;line-height:1.6;color:rgba(255,255,255,.8)}
+.fi-nums{display:flex;margin-top:30px;border-top:1px solid rgba(255,255,255,.18);border-bottom:1px solid rgba(255,255,255,.18)}
+.fi-nums div{padding:16px 30px;display:grid;gap:2px}
+.fi-nums div+div{border-left:1px solid rgba(255,255,255,.18)}
+.fi-nums b{font-family:var(--fi-disp);font-weight:600;font-size:2.2rem;line-height:1;color:var(--fi-g2)}
+.fi-nums span{font-size:.7rem;letter-spacing:.2em;text-transform:uppercase;font-weight:700;color:rgba(255,255,255,.75)}
+.fi-hero .fi-cta{justify-content:center}
+
+/* portfólio */
+.fi-sec{padding:80px 0 70px;background:linear-gradient(180deg,var(--fi-ink),var(--fi-d))}
+.fi-cat+.fi-cat{margin-top:56px}
+.fi-cat h2{font-family:var(--fi-disp);font-weight:600;font-size:clamp(1.7rem,3.4vw,2.4rem);color:#fff;display:flex;align-items:center;gap:18px}
+.fi-cat h2::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,rgba(201,162,39,.6),transparent)}
+.fi-grid{list-style:none;display:grid;grid-template-columns:repeat(3,1fr);gap:18px;margin-top:24px}
+.fi-grid a{position:relative;display:block;height:100%;border-radius:18px;overflow:hidden;background:var(--fi-n);border:1px solid rgba(255,255,255,.08);transition:transform .45s var(--ease),border-color .45s,box-shadow .45s}
+.fi-grid a:hover{transform:translateY(-4px);border-color:rgba(201,162,39,.6);box-shadow:0 24px 50px -24px rgba(0,0,0,.6)}
+.fi-grid img{display:block;width:100%;height:auto;aspect-ratio:4/3;object-fit:cover;transition:transform .7s var(--ease)}
+.fi-grid a:hover img{transform:scale(1.04)}
+.fi-tag{position:absolute;top:12px;left:12px;padding:5px 11px;border-radius:999px;background:rgba(17,29,61,.82);color:var(--fi-g2);font-size:.66rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
+.fi-grid a>div{padding:18px 20px 20px}
+.fi-grid h3{font-family:var(--fi-disp);font-weight:600;font-size:1.35rem;color:#fff}
+.fi-grid small{display:block;margin-top:2px;font-size:.84rem;color:var(--fi-mist);opacity:.8}
+.fi-grid p{margin-top:12px;padding-top:12px;border-top:1px solid rgba(255,255,255,.12);font-weight:700;color:#fff}
+.fi-grid p span{display:block;font-size:.66rem;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--fi-g2)}
+.fi-note{margin-top:30px;font-size:.78rem;color:rgba(255,255,255,.5)}
+
+/* chamada final */
+.fi-final{padding:100px 0;text-align:center;background:radial-gradient(ellipse at 50% 100%,rgba(201,162,39,.2),transparent 60%),var(--fi-ink)}
+.fi-final h2{margin-top:12px;font-family:var(--fi-disp);font-weight:600;font-size:clamp(2.2rem,5.5vw,4rem);line-height:1.05;color:#fff}
+.fi-final>div>p:not(.fi-kicker){margin:18px auto 0;max-width:600px;color:rgba(255,255,255,.75);font-size:1.05rem}
+.fi-site{margin:34px auto 0;display:inline-grid;grid-template-columns:auto auto;grid-template-rows:auto auto;column-gap:22px;align-items:center;text-align:left;padding:20px 30px;border-radius:22px;background:var(--fi-g);color:var(--fi-ink);box-shadow:0 20px 60px -20px rgba(201,162,39,.8);transition:transform .35s var(--ease),background .35s}
+.fi-site:hover{transform:translateY(-3px);background:var(--fi-g2)}
+.fi-site span{font-size:.7rem;font-weight:800;letter-spacing:.24em;text-transform:uppercase}
+.fi-site b{grid-row:2;font-family:var(--fi-disp);font-weight:600;font-size:clamp(1.4rem,4vw,2.2rem);line-height:1.1}
+.fi-site svg{grid-row:1/3;grid-column:2;width:30px;height:30px}
+.fi-foot{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding-top:24px;padding-bottom:30px;border-top:1px solid rgba(255,255,255,.1);font-size:.84rem;color:rgba(255,255,255,.6)}
+.fi-foot a{color:var(--fi-g2)}
+
+.fi-hero-in{opacity:0;transform:translateY(24px) scale(.97);transition:opacity .8s .35s,transform 1s .35s cubic-bezier(.2,.75,.1,1)}
+.land.on .fi-hero-in{opacity:1;transform:none}
+
 @media(max-width:920px){
   .cv-nav .cv-btn{display:none}
+  .fi-grid{grid-template-columns:1fr 1fr}
+  .fi-sec{padding:60px 0}
+  .fi-final{padding:76px 0}
   .cv-about-grid,.cv-ben-grid{grid-template-columns:1fr;gap:40px}
   .cv-area-grid,.cv-tk-grid{grid-template-columns:1fr 1fr}
   .cv-sp-grid{grid-template-columns:1fr 1fr}
@@ -541,6 +613,20 @@ body.flying #glow{opacity:0!important}
   .cv-ticker div,.cv-badge i{animation:none}
 }
 @media(max-width:560px){
+  .fi-grid{gap:10px}
+  .fi-grid a{border-radius:14px}
+  .fi-grid a>div{padding:12px 12px 14px}
+  .fi-grid h3{font-size:1.02rem;line-height:1.2}
+  .fi-grid small{font-size:.74rem}
+  .fi-grid p{margin-top:8px;padding-top:8px;font-size:.84rem}
+  .fi-grid p span{font-size:.56rem;letter-spacing:.1em}
+  .fi-tag{top:8px;left:8px;padding:4px 8px;font-size:.54rem;letter-spacing:.08em;max-width:calc(100% - 16px);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .fi-cat+.fi-cat{margin-top:40px}
+  .fi-strip{font-size:.62rem;letter-spacing:.1em;text-align:center;padding:8px 12px}
+  .fi-nums div{padding:14px 16px}
+  .fi-nums b{font-size:1.8rem}
+  .fi-strip{gap:8px}
+  .fi-site{padding:18px 22px;column-gap:14px}
   .cv-area-grid,.cv-tk-grid{grid-template-columns:1fr}
   .cv-count div{gap:6px}
   .cv-count b{min-width:58px;font-size:1.5rem}

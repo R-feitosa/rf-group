@@ -71,14 +71,14 @@ export const UNITS: Unit[] = [
     instagram: 'https://www.instagram.com/ecosolucoesemp',
   },
   {
-    id: 'feitosa-imoveis', logo: 'feitosa-imobiliarias', motion: 'sway', color: '#212965',
+    id: 'feitosa-imoveis', logo: 'feitosa-imobiliarias', motion: 'sway', color: '#212965', landing: true,
     name: 'Feitosa Imóveis', tagline: 'Servir', role: 'Locação e administração',
     text: 'Locação e administração de imóveis com atendimento humano, transparência e cuidado com o patrimônio.',
     stats: [
       { value: 15, suffix: '+', label: 'imóveis' },
       { value: 400, suffix: '+', label: 'hóspedes' },
     ],
-    cta: { label: 'Conhecer', href: 'https://www.instagram.com/imoveis.feitosa' },
+    cta: { label: 'Ver catálogo', href: 'https://rfeitosaimoveis.online/' },
     instagram: 'https://www.instagram.com/imoveis.feitosa',
   },
 ];
