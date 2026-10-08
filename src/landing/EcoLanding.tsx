@@ -1,19 +1,27 @@
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import { useEffect, useRef, useState, type CSSProperties, type ReactNode } from 'react';
 import { useLanding } from './store';
 import { closeLanding, lite } from './controller';
 import { ECO } from './eco';
+import { EcoSymbol } from './ecoSymbol';
 import { scheduleWarm } from '../three/warm';
-import { Arrow, Instagram } from '../components/Icons';
-import logo from '../assets/eco/logo.webp';
+import { Instagram } from '../components/Icons';
 import maze from '../assets/eco/maze.webp';
+import xadrez from '../assets/eco/xadrez.webp';
 
 const L = ECO.links;
+const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
 
-/** Faixa da referência: © · Instagram · site (topo e rodapé). */
-function Bar({ top }: { top?: boolean }) {
-  const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
+const CHIP_ICON: Record<string, ReactNode> = {
+  people: <svg viewBox="0 0 24 24" fill="currentColor"><circle cx="12" cy="8" r="4.2" /><path d="M3.5 21a8.5 8.5 0 0 1 17 0z" /></svg>,
+  chart: <svg viewBox="0 0 24 24" fill="currentColor"><rect x="3" y="13" width="4.5" height="8" rx="1" /><rect x="9.75" y="8" width="4.5" height="13" rx="1" /><rect x="16.5" y="3" width="4.5" height="18" rx="1" /></svg>,
+  eco: <EcoSymbol />,
+};
+const ArrowDR = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M6 6l12 12M18 8v10H8" /></svg>;
+
+/** Faixa dos posts da marca: © · Instagram · site (topo e rodapé). */
+function Bar({ top, dark }: { top?: boolean; dark?: boolean }) {
   return (
-    <div className={`eco-bar${top ? ' top' : ''}`}>
+    <div className={`eco-bar${top ? ' top' : ''}${dark ? ' dark' : ''}`}>
       <span>© 2025 Eco Soluções</span>
       <a href={L.instagram} {...ext}>{L.instagramLabel}</a>
       <a href={L.site} {...ext}>{L.siteLabel}</a>
@@ -21,9 +29,20 @@ function Bar({ top }: { top?: boolean }) {
   );
 }
 
+/** Assinatura da Eco toda em cinza: o símbolo da moeda 3D + "ECO Soluções Empresariais". */
+function Lockup() {
+  return (
+    <div className="eco-lockup" role="img" aria-label="Eco Soluções Empresariais">
+      <EcoSymbol />
+      <b>ECO</b>
+      <span>Soluções<br /><strong>Empresariais</strong></span>
+    </div>
+  );
+}
+
 /**
- * Folder da Eco Soluções (1º protótipo): a moeda explode e se reconstrói como labirinto 3D
- * (src/three/explode.ts, modo maze), que fica como fundo fixo da landing. Sempre leva ao site oficial.
+ * Folder da Eco Soluções: a moeda explode e se reconstrói como labirinto 3D (src/three/explode.ts, modo maze),
+ * que fica como fundo fixo da landing. Conteúdo na linguagem dos posts da marca; sempre leva ao site oficial.
  */
 export default function EcoLanding() {
   const s = useLanding();
@@ -50,7 +69,18 @@ export default function EcoLanding() {
   useEffect(() => scheduleWarm(() => setArmed(true)), []);
   useEffect(() => { if (active) setArmed(true); }, [active]);
 
-  const ext = { target: '_blank', rel: 'noopener noreferrer' } as const;
+  // destaques "selecionados" (cinza) se desenham quando entram na tela
+  useEffect(() => {
+    const el = root.current;
+    if (!on || !el) return;
+    const io = new IntersectionObserver((es) => es.forEach((e) => {
+      if (e.isIntersecting) { e.target.classList.add('go'); io.unobserve(e.target); }
+    }), { root: el, threshold: 0.6 });
+    el.querySelectorAll('.eco-hl').forEach((h) => io.observe(h));
+    return () => io.disconnect();
+  }, [on]);
+
+  const st = ECO.strategy, cs = ECO.case, fn = ECO.final;
 
   return (
     <div
@@ -73,44 +103,61 @@ export default function EcoLanding() {
         <button ref={closeBtn} className="eco-back" onClick={() => closeLanding()}>
           <span aria-hidden="true">←</span> Voltar ao RF Group
         </button>
-        <a className="eco-btn ghost sm" href={L.site} {...ext}>Site oficial</a>
+        <a className="eco-btn line sm" href={L.site} {...ext}>Site oficial</a>
       </div>
 
+      {/* capa clara, sobre o labirinto */}
       <section className="eco-wrap eco-hero eco-in">
-        <img className="eco-logo" src={logo} alt="Eco Soluções Empresariais" width={760} height={162} />
-        <h1>{ECO.title[0]}<br />{ECO.title[1]} <b>{ECO.title[2]}</b></h1>
-        <p className="eco-lead">{ECO.lead}</p>
+        <Lockup />
+        <h1>{ECO.hero.title[0]}<br />{ECO.hero.title[1]} <b>{ECO.hero.title[2]}</b></h1>
+        <p className="eco-lead">{ECO.hero.lead}</p>
         <div className="eco-cta">
-          <a className="eco-btn red" href={L.site} {...ext}><span>Acessar o site oficial</span><Arrow /></a>
-          <a className="eco-btn ghost" href={L.instagram} {...ext}><Instagram /><span>{L.instagramLabel}</span></a>
+          <a className="eco-btn solid" href={L.site} {...ext}><span>Acessar o site oficial</span><ArrowDR /></a>
+          <a className="eco-btn line" href={L.instagram} {...ext}><Instagram /><span>{L.instagramLabel}</span></a>
         </div>
-        <div className="eco-nums">
-          {ECO.numbers.map((n) => <div key={n.l}><b>{n.v}</b><span>{n.l}</span></div>)}
+        <EcoSymbol className="eco-mark" />
+      </section>
+
+      {/* xadrez: "Você precisa de estratégia!" */}
+      <section className="eco-dark eco-chess eco-in">
+        <div className="eco-wrap">
+          <figure><img src={xadrez} alt="Rei dourado de pé entre peças caídas, diante do símbolo da Eco" width={1080} height={800} loading="lazy" /></figure>
+          <h2><span className="eco-hl box">{st.title[0]}</span> {st.title[1]}<br />{st.title[2]}</h2>
+          <ul className="eco-chips">
+            {st.chips.map((c) => (
+              <li key={c.t}><i>{CHIP_ICON[c.icon]}</i><span>{c.b && <b>{c.b} </b>}{c.t}</span></li>
+            ))}
+          </ul>
         </div>
       </section>
 
-      {/* o caminho: três frentes ligadas por uma trilha, como a saída do labirinto */}
-      <section className="eco-wrap eco-path eco-in">
-        <p className="eco-kicker">O caminho até a <b>{ECO.tagline.toLowerCase()}</b></p>
-        <ol>
-          {ECO.path.map((p) => (
-            <li key={p.n}><span>{p.n}</span><h2>Consultoria <b>{p.t}</b></h2><p>{p.d}</p></li>
-          ))}
-        </ol>
+      {/* caso de virada (post da marca) */}
+      <section className="eco-wrap eco-case eco-in">
+        <div className="eco-case-card">
+          <p className="eco-case-lead">{cs.problem[0]}<b>{cs.problem[1]}</b>{cs.problem[2]}</p>
+          <p className="eco-case-turn">{cs.turn}</p>
+          <ul className="eco-tri">{cs.wins.map((w) => <li key={w}>{w}</li>)}</ul>
+          <p className="eco-case-q">{cs.question[0]}<b>{cs.question[1]}</b></p>
+        </div>
+        <EcoSymbol className="eco-case-mark" />
       </section>
 
-      <section className="eco-wrap eco-final eco-in">
-        <p className="eco-kicker">{ECO.kicker}</p>
-        <h2>Encontre a saída <b>com a Eco.</b></h2>
-        <a className="eco-site" href={L.site} {...ext}>
-          <span>Site oficial</span>
-          <b>{L.siteLabel}</b>
-          <Arrow />
-        </a>
-        <button className="eco-back dark" onClick={() => closeLanding()}>← Voltar ao RF Group</button>
+      {/* fechamento escuro: seleção de texto + botão de vidro para o site oficial */}
+      <section className="eco-dark eco-final eco-in">
+        <div className="eco-wrap">
+          <h2>{fn.title[0]} <span className="eco-hl sel">{fn.title[1]}</span></h2>
+          <p className="eco-sub">{fn.sub}</p>
+          <a className="eco-glass" href={L.site} {...ext}>
+            <ArrowDR />
+            <span><small>Site oficial</small>{L.siteLabel}</span>
+          </a>
+          <div className="eco-final-links">
+            <a href={L.instagram} {...ext}><Instagram />{L.instagramLabel}</a>
+            <button className="eco-back light" onClick={() => closeLanding()}>← Voltar ao RF Group</button>
+          </div>
+        </div>
+        <Bar dark />
       </section>
-
-      <Bar />
       </>)}
     </div>
   );

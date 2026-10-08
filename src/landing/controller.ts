@@ -4,7 +4,7 @@ import { device } from '../three/device';
 import { prefersReducedMotion } from '../three/motion';
 
 // cor das faíscas/onda de choque: contrasta com o fundo da landing (amarelo do folder → azul da marca)
-const SPARK: Partial<Record<LogoKey, string>> = { 'connect-academy': '#1c4fd6', 'connect-valley': '#f6ce54', 'feitosa-imobiliarias': '#e3c25a', 'feitosa-advogados': '#d9b46a', 'eco-solucoes': '#b3123a' };
+const SPARK: Partial<Record<LogoKey, string>> = { 'connect-academy': '#1c4fd6', 'connect-valley': '#f6ce54', 'feitosa-imobiliarias': '#e3c25a', 'feitosa-advogados': '#d9b46a', 'eco-solucoes': '#3a3a3a' };
 // marcas cuja moeda, ao explodir, se reconstrói como labirinto 3D
 const MAZE = new Set<LogoKey>(['eco-solucoes']);
 let origin: HTMLElement | null = null;

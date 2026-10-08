@@ -9,6 +9,9 @@ import '@fontsource/outfit/latin-300.css'; // títulos da landing R.Feitosa Advo
 import '@fontsource/outfit/latin-600.css';
 import '@fontsource/montserrat/latin-400.css'; // landing Eco Soluções (mesma família da marca)
 import '@fontsource/montserrat/latin-700.css';
+import '@fontsource/poppins/latin-300.css'; // conteúdo da landing Eco (mesma fonte dos posts da marca)
+import '@fontsource/poppins/latin-400.css';
+import '@fontsource/poppins/latin-700.css';
 import './styles.css';
 
 createRoot(document.getElementById('root')!).render(

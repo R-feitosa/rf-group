@@ -29,7 +29,7 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 | `src/landing/ValleyLanding.tsx` + `valley.ts` | Folder escondido da **Connect Valley**: resumo do evento que sempre leva ao site oficial (connectvaley.com.br), sem substituí-lo; base: landing oficial (repositório `ConnectValley-Langing-Page`; imagens em `src/assets/valley/`) |
 | `src/landing/ImoveisLanding.tsx` + `imoveis.ts` | Folder escondido da **Feitosa Imóveis**: portfólio resumido (temporada, residenciais, comerciais, valores "a partir de") que sempre leva ao catálogo oficial (rfeitosaimoveis.online), sem substituí-lo; base: repositório `site-catalogo-feitosaimoveis` (imagens em `src/assets/imoveis/`) |
 | `src/landing/AdvogadosLanding.tsx` + `advogados.ts` | Folder escondido da **R.Feitosa Advogados**: áreas, sócios, números, reconhecimentos e unidades, sempre levando ao site oficial (site-sdvogados.vercel.app), sem substituí-lo; base: repositório `site-sdvogados` (imagens em `src/assets/advogados/`) |
-| `src/landing/EcoLanding.tsx` + `eco.ts` | Folder escondido da **Eco Soluções** (1º protótipo): a moeda explode e se reconstrói como **labirinto 3D** (`explode.ts`, modo `maze`), que **fica como fundo fixo** da landing (estilo da referência do Canva; a imagem em `src/assets/eco/` é só reserva para aparelhos fracos); sempre leva a ecosolucoes.com.br |
+| `src/landing/EcoLanding.tsx` + `eco.ts` | Folder escondido da **Eco Soluções** (1º protótipo): a moeda explode e se reconstrói como **labirinto 3D** (`explode.ts`, modo `maze`), que **fica como fundo fixo** da landing; conteúdo na linguagem dos posts da marca (preto profundo, cinza, Poppins, vidro, símbolo da moeda em cinza — `ecoSymbol.tsx`); a imagem do labirinto em `src/assets/eco/` é só reserva para aparelhos fracos; sempre leva a ecosolucoes.com.br |
 | `src/three/explode.ts` | Explosão/remontagem 3D da logo (fragmentos + faíscas), adaptada de "Logos com explosão 3D" |
 | `src/three/motion.ts` | Estado global de mouse/scroll compartilhado pelas cenas |
 | `src/components/*` | Seções da página (Header, Hero, Quem somos, Empresas, Números, Contato, Footer) |
@@ -51,6 +51,6 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 ## Segurança
 
 - **Cabeçalhos HTTP** (`vercel.json`): CSP restritiva (só recursos do próprio site; sem scripts de terceiros), `X-Frame-Options: DENY` e `frame-ancestors 'none'` (contra clickjacking), `nosniff`, `Referrer-Policy`, `Permissions-Policy` (câmera, microfone, geolocalização etc. desligados), HSTS e COOP.
-- **Privacidade (LGPD)**: nenhuma requisição a terceiros ao abrir o site — fontes servidas localmente (`@fontsource`: Source Sans 3, Anton SC, Playfair Display, Outfit, Montserrat), sem Google Fonts, sem analytics; links do Instagram sem parâmetro de rastreio.
+- **Privacidade (LGPD)**: nenhuma requisição a terceiros ao abrir o site — fontes servidas localmente (`@fontsource`: Source Sans 3, Anton SC, Playfair Display, Outfit, Montserrat, Poppins), sem Google Fonts, sem analytics; links do Instagram sem parâmetro de rastreio.
 - **Formulário**: não grava nada; monta a mensagem e abre o WhatsApp. Campos com limite de tamanho e texto codificado com `encodeURIComponent`.
 - **Dependências**: `npm audit` sem vulnerabilidades (produção e desenvolvimento). Rode `npm audit` periodicamente.
