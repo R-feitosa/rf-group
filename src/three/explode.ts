@@ -37,6 +37,7 @@ function setup(): Ctx {
     cam.aspect = w / h;
     cam.position.set(0, 0, h / 2 / Math.tan((15 * Math.PI) / 180));
     cam.updateProjectionMatrix();
+    resizeMazeBg();
   };
   addEventListener('resize', resize);
   resize();
@@ -160,12 +161,12 @@ function sparks(color: THREE.Color, intensity: number) {
 
 // ===== Moeda → labirinto (Eco Soluções) =====
 // Os fragmentos da moeda viram blocos brancos que voam e montam um labirinto 3D em perspectiva
-// (mesma linguagem do fundo da landing); depois o labirinto se dissolve na imagem de fundo.
-const MAZE = { delay: 0.1, wave: 0.95, jitter: 0.3, fly: 1.05, hold: 0.25, fade: 0.8 }; // segundos
-export const MAZE_TOTAL = MAZE.delay + MAZE.wave + MAZE.jitter + MAZE.fly + MAZE.hold + MAZE.fade;
+// (mesma linguagem da referência); montado, o labirinto fica como fundo fixo da landing.
+const MAZE = { delay: 0.1, wave: 0.95, jitter: 0.3, fly: 1.05, hold: 0.1 }; // segundos
+export const MAZE_TOTAL = MAZE.delay + MAZE.wave + MAZE.jitter + MAZE.fly + MAZE.hold;
 const unitBox = new THREE.BoxGeometry(1, 1, 1);
 let mazeMat: THREE.MeshStandardMaterial | null = null;
-const mazeMaterial = () => (mazeMat ??= new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.92, metalness: 0, transparent: true }));
+const mazeMaterial = () => (mazeMat ??= new THREE.MeshStandardMaterial({ color: 0xffffff, roughness: 0.92, metalness: 0 }));
 
 /** Paredes de um labirinto perfeito (busca em profundidade), em unidades de célula: [x, y, horizontal]. */
 function mazeWalls(cols: number, rows: number): [number, number, boolean][] {
@@ -255,12 +256,43 @@ function buildMaze(cx: number, cy: number, coinR: number) {
     }
     mesh.instanceMatrix.needsUpdate = true;
     mesh.instanceColor!.needsUpdate = true;
-    const fadeAt = MAZE_TOTAL - MAZE.fade;
-    mazeMaterial().opacity = sec < fadeAt ? 1 : Math.max(0, 1 - (sec - fadeAt) / MAZE.fade);
   };
   update(0);
   const dispose = () => { mesh.dispose(); };
   return { group, update, dispose };
+}
+
+// Labirinto montado que ficou como fundo da landing: o canvas da explosão é movido para dentro dela
+// (atrás do conteúdo) e só redesenha quando a tela muda de tamanho.
+let bgMaze: { group: THREE.Group; dispose: () => void; w: number } | null = null;
+
+function keepMazeAsBg(mz: ReturnType<typeof buildMaze>, host: HTMLElement) {
+  const { r, scene, cam } = ctx!;
+  bgMaze = { group: mz.group, dispose: mz.dispose, w: innerWidth };
+  host.appendChild(r.domElement);
+  r.domElement.classList.add('in-bg');
+  r.render(scene, cam); // desenha já no novo lugar: sem quadro vazio na troca
+}
+
+function resizeMazeBg() {
+  if (!bgMaze || !ctx) return;
+  if (innerWidth !== bgMaze.w) { // girou a tela / mudou a largura: remonta (já pronto) para cobrir a tela nova
+    const nm = buildMaze(0, 0, 1);
+    nm.update(Infinity);
+    ctx.scene.remove(bgMaze.group); bgMaze.dispose();
+    ctx.scene.add(nm.group);
+    bgMaze = { group: nm.group, dispose: nm.dispose, w: innerWidth };
+  }
+  ctx.r.render(ctx.scene, ctx.cam);
+}
+
+/** Tira o labirinto do fundo e devolve o canvas à camada da explosão (ao fechar a landing). */
+export function releaseMaze() {
+  if (!bgMaze || !ctx) return;
+  ctx.scene.remove(bgMaze.group); bgMaze.dispose(); bgMaze = null;
+  ctx.r.domElement.classList.remove('in-bg');
+  document.body.appendChild(ctx.r.domElement);
+  ctx.r.render(ctx.scene, ctx.cam); // limpa
 }
 
 // Logos já fragmentadas e com shader compilado, prontas para o clique.
@@ -296,6 +328,8 @@ type PlayOpts = {
   key: LogoKey; el: HTMLElement; reverse?: boolean; spark?: string; intensity?: number; speed?: number;
   /** os fragmentos remontam um labirinto 3D na tela (Eco Soluções) */
   maze?: boolean;
+  /** onde o labirinto montado fica como fundo (dentro da landing); sem ele, o labirinto é descartado */
+  mazeHost?: () => HTMLElement | null;
   onBurst?: () => void; onDone?: () => void;
 };
 
@@ -310,6 +344,7 @@ export function play(o: PlayOpts): Promise<void> {
   let killed = false;
   stopPrev = () => { killed = true; };
   const resumeWarm = pauseWarm(); // nada de preparo em segundo plano disputando os quadros da animação
+  releaseMaze(); // fechar a landing da Eco: o labirinto de fundo sai antes da moeda remontar
   prepare(o.key, o.spark, o.maze); // no-op se já preparado em segundo plano
   const { group, mats } = ready.get(o.key)!;
   r.domElement.classList.add('on');
@@ -363,7 +398,8 @@ export function play(o: PlayOpts): Promise<void> {
         }
         if (done) {
           scene.remove(holder);
-          if (mz) { scene.remove(mz.group); mz.dispose(); }
+          const host = mz && !killed ? o.mazeHost?.() : null;
+          if (mz && !host) { scene.remove(mz.group); mz.dispose(); }
           light.intensity = 0;
           holder.remove(group); // fragmentos ficam guardados para a próxima vez
           fx?.g.traverse((x) => {
@@ -371,7 +407,11 @@ export function play(o: PlayOpts): Promise<void> {
             m.geometry?.dispose();
             (m.material as THREE.Material | undefined)?.dispose?.();
           });
-          if (me === current) { r.render(scene, cam); r.domElement.classList.remove('on'); stopPrev = null; } // limpa
+          if (me === current) {
+            if (mz && host) keepMazeAsBg(mz, host); else r.render(scene, cam); // limpa
+            r.domElement.classList.remove('on');
+            stopPrev = null;
+          }
           resumeWarm();
           o.onDone?.();
           res();

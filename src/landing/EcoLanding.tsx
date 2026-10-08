@@ -23,7 +23,7 @@ function Bar({ top }: { top?: boolean }) {
 
 /**
  * Folder da Eco Soluções (1º protótipo): a moeda explode e se reconstrói como labirinto 3D
- * (src/three/explode.ts, modo maze), que se dissolve neste fundo de labirinto. Sempre leva ao site oficial.
+ * (src/three/explode.ts, modo maze), que fica como fundo fixo da landing. Sempre leva ao site oficial.
  */
 export default function EcoLanding() {
   const s = useLanding();
@@ -31,12 +31,12 @@ export default function EcoLanding() {
   const closeBtn = useRef<HTMLButtonElement>(null);
   const active = s?.key === 'eco-solucoes';
   const on = active && s.phase === 'open';
-  // sem explosão (aparelho fraco / movimento reduzido): fundo e conteúdo entram sem esperar o labirinto 3D
-  const [instant, setInstant] = useState(false);
+  // sem explosão (aparelho fraco / movimento reduzido): fundo e conteúdo entram sem esperar o labirinto 3D.
+  // Calculado no render (não em efeito): a classe precisa existir antes de ".on" disparar as transições.
+  const instant = active && lite();
 
   useEffect(() => {
     if (!active) return;
-    setInstant(lite());
     const html = document.documentElement;
     html.style.overflow = 'hidden';
     root.current?.scrollTo(0, 0);
@@ -64,8 +64,9 @@ export default function EcoLanding() {
       {...(!active ? { inert: '' } : {})}
     >
       {armed && (<>
-      {/* fundo fixo: o labirinto da referência (aparece quando o labirinto 3D se dissolve) */}
-      <div className="eco-bg" aria-hidden="true"><img src={maze} alt="" width={1080} height={1080} /></div>
+      {/* fundo fixo: recebe o labirinto 3D montado na explosão (data-maze-host);
+          a imagem da referência só aparece sem a animação (aparelho fraco / movimento reduzido) */}
+      <div className="eco-bg" data-maze-host aria-hidden="true"><img src={maze} alt="" width={1080} height={1080} /></div>
 
       <Bar top />
       <div className="eco-wrap eco-nav">

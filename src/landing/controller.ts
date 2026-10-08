@@ -11,7 +11,10 @@ let origin: HTMLElement | null = null;
 /** sem explosão (movimento reduzido ou aparelho fraco): a landing só abre */
 export const lite = () => prefersReducedMotion() || device.lowEnd;
 // o módulo da explosão (three + shader) só é carregado quando necessário
-const explode = () => import('../three/explode');
+let fxMod: typeof import('../three/explode') | null = null;
+const explode = () => import('../three/explode').then((m) => (fxMod = m));
+// a landing da Eco recebe o labirinto montado como fundo
+const mazeHost = () => document.querySelector<HTMLElement>('.land.active [data-maze-host]');
 
 /** Abre a landing escondida da marca a partir da logo clicada (explosão + revelação em círculo). */
 export function openLanding(key: LogoKey, el: HTMLElement) {
@@ -26,7 +29,7 @@ export function openLanding(key: LogoKey, el: HTMLElement) {
     return;
   }
   explode().then(({ play }) =>
-    play({ key, el, spark: SPARK[key], maze: MAZE.has(key), onBurst: () => landing.patch({ phase: 'open' }) }),
+    play({ key, el, spark: SPARK[key], maze: MAZE.has(key), mazeHost, onBurst: () => landing.patch({ phase: 'open' }) }),
   ).catch(() => landing.patch({ phase: 'open' }));
 }
 
@@ -38,7 +41,7 @@ export function closeLanding(fromHistory = false) {
   if (!fromHistory && history.state?.rfLanding) history.back();
   const done = () => { landing.set(null); origin?.focus({ preventScroll: true }); };
   setTimeout(() => {
-    if (lite() || !origin) return done();
+    if (lite() || !origin) { fxMod?.releaseMaze(); return done(); }
     explode().then(({ play }) => play({ key: s.key, el: origin!, reverse: true, onDone: done })).catch(done);
   }, 380);
 }
