@@ -300,8 +300,18 @@ export function releaseMaze() {
 const ready = new Map<LogoKey, Built>();
 
 /** Prepara (em momento ocioso) contexto, fragmentos e shader da explosão de uma logo. */
+// preparos pedidos durante uma animação esperam ela terminar (o canvas é o mesmo da animação e do labirinto de fundo)
+let playing = 0;
+let deferred: (() => void)[] = [];
+const flushDeferred = () => setTimeout(() => {
+  if (playing) return;
+  const jobs = deferred; deferred = [];
+  jobs.forEach((j) => j());
+}, 400);
+
 export function prepare(key: LogoKey, spark = '#ffffff', maze = false) {
   if (ready.has(key)) return;
+  if (playing) { deferred.push(() => prepare(key, spark, maze)); return; }
   const { r, scene, cam } = setup();
   const b = build(key, 1);
   // sonda minúscula com a logo fragmentada + faíscas: compila todos os programas usados na explosão
@@ -320,7 +330,8 @@ export function prepare(key: LogoKey, spark = '#ffffff', maze = false) {
   probe.remove(b.group);
   mz?.dispose();
   fx.g.traverse((x) => { const m = x as THREE.Mesh; m.geometry?.dispose(); (m.material as THREE.Material | undefined)?.dispose?.(); });
-  r.clear();
+  // labirinto da Eco como fundo: redesenha-o (limpar o canvas apagaria o fundo da landing)
+  if (bgMaze) r.render(scene, cam); else r.clear();
   ready.set(key, b);
 }
 
@@ -346,6 +357,7 @@ export function play(o: PlayOpts): Promise<void> {
   const resumeWarm = pauseWarm(); // nada de preparo em segundo plano disputando os quadros da animação
   releaseMaze(); // fechar a landing da Eco: o labirinto de fundo sai antes da moeda remontar
   prepare(o.key, o.spark, o.maze); // no-op se já preparado em segundo plano
+  playing++;
   const { group, mats } = ready.get(o.key)!;
   r.domElement.classList.add('on');
 
@@ -413,6 +425,8 @@ export function play(o: PlayOpts): Promise<void> {
             stopPrev = null;
           }
           resumeWarm();
+          playing--;
+          if (!playing && deferred.length) flushDeferred();
           o.onDone?.();
           res();
           return;
