@@ -4,9 +4,12 @@ import { device } from '../three/device';
 import { prefersReducedMotion } from '../three/motion';
 
 // cor das faíscas/onda de choque: contrasta com o fundo da landing (amarelo do folder → azul da marca)
-const SPARK: Partial<Record<LogoKey, string>> = { 'connect-academy': '#1c4fd6', 'connect-valley': '#f6ce54', 'feitosa-imobiliarias': '#e3c25a', 'feitosa-advogados': '#d9b46a' };
+const SPARK: Partial<Record<LogoKey, string>> = { 'connect-academy': '#1c4fd6', 'connect-valley': '#f6ce54', 'feitosa-imobiliarias': '#e3c25a', 'feitosa-advogados': '#d9b46a', 'eco-solucoes': '#b3123a' };
+// marcas cuja moeda, ao explodir, se reconstrói como labirinto 3D
+const MAZE = new Set<LogoKey>(['eco-solucoes']);
 let origin: HTMLElement | null = null;
-const lite = () => prefersReducedMotion() || device.lowEnd;
+/** sem explosão (movimento reduzido ou aparelho fraco): a landing só abre */
+export const lite = () => prefersReducedMotion() || device.lowEnd;
 // o módulo da explosão (three + shader) só é carregado quando necessário
 const explode = () => import('../three/explode');
 
@@ -23,7 +26,7 @@ export function openLanding(key: LogoKey, el: HTMLElement) {
     return;
   }
   explode().then(({ play }) =>
-    play({ key, el, spark: SPARK[key], onBurst: () => landing.patch({ phase: 'open' }) }),
+    play({ key, el, spark: SPARK[key], maze: MAZE.has(key), onBurst: () => landing.patch({ phase: 'open' }) }),
   ).catch(() => landing.patch({ phase: 'open' }));
 }
 
@@ -45,5 +48,5 @@ addEventListener('popstate', () => closeLanding(true));
 /** Pré-prepara a explosão da marca em momento ocioso (evita travada no clique). */
 export function prepareLanding(key: LogoKey) {
   if (lite()) return;
-  explode().then(({ prepare }) => prepare(key, SPARK[key]));
+  explode().then(({ prepare }) => prepare(key, SPARK[key], MAZE.has(key)));
 }

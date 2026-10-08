@@ -7,6 +7,8 @@ import '@fontsource/anton-sc/latin.css'; // títulos da landing Connect Valley (
 import '@fontsource/playfair-display/latin-600.css'; // títulos da landing Feitosa Imóveis (mesma fonte do catálogo oficial)
 import '@fontsource/outfit/latin-300.css'; // títulos da landing R.Feitosa Advogados (mesma fonte do site oficial)
 import '@fontsource/outfit/latin-600.css';
+import '@fontsource/montserrat/latin-400.css'; // landing Eco Soluções (mesma família da marca)
+import '@fontsource/montserrat/latin-700.css';
 import './styles.css';
 
 createRoot(document.getElementById('root')!).render(

@@ -62,14 +62,14 @@ export const UNITS: Unit[] = [
     instagram: 'https://www.instagram.com/connect.valley',
   },
   {
-    id: 'eco-solucoes', logo: 'eco-solucoes', motion: 'float', color: '#737373',
+    id: 'eco-solucoes', logo: 'eco-solucoes', motion: 'float', color: '#737373', landing: true, landingLabel: 'Conhecer a Eco',
     name: 'Eco Soluções', tagline: 'Lucratividade', role: 'Consultoria empresarial',
     text: 'Consultoria tributária, jurídica e empresarial com foco em performance e resultados sustentáveis.',
     stats: [
       { value: 100, suffix: '%', label: 'gestão positiva' },
       { value: 150, suffix: '+', label: 'empresas atendidas' },
     ],
-    cta: { label: 'Conhecer', href: 'https://www.instagram.com/ecosolucoesemp' },
+    cta: { label: 'Visitar site', href: 'https://ecosolucoes.com.br/' },
     instagram: 'https://www.instagram.com/ecosolucoesemp',
   },
   {
