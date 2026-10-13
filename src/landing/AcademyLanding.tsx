@@ -193,7 +193,7 @@ export default function AcademyLanding() {
             <p>{ACADEMY.contactSub}</p>
             <div className="ca-cta">
               <a className="ca-btn gold" href={wa} target="_blank" rel="noopener noreferrer"><WhatsApp /><span>Falar no WhatsApp</span></a>
-              <a className="ca-btn light" href={unit.cta.href} target="_blank" rel="noopener noreferrer"><span>Site da Academy</span><Arrow /></a>
+              <a className="ca-btn light" href={unit.cta?.href} target="_blank" rel="noopener noreferrer"><span>Site da Academy</span><Arrow /></a>
             </div>
           </div>
           <div className="ca-contact-info">

@@ -44,7 +44,7 @@ function UnitRow({ u, i }: { u: Unit; i: number }) {
               <span>{u.landingLabel ?? `Conhecer a ${u.name.split(' ').pop()}`}</span><Arrow />
             </button>
           )}
-          <a className="btn dark" href={u.cta.href} target="_blank" rel="noopener noreferrer"><span>{u.cta.label}</span><Arrow /></a>
+          {u.cta && <a className="btn dark" href={u.cta.href} target="_blank" rel="noopener noreferrer"><span>{u.cta.label}</span><Arrow /></a>}
           <a className="ig" href={u.instagram} target="_blank" rel="noopener noreferrer" aria-label={`Instagram ${u.name}`}><Instagram /></a>
         </div>
       </Reveal>

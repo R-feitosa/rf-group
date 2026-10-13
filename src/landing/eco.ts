@@ -24,9 +24,8 @@ export const ECO = {
     title: ['Sem direção, até o melhor esforço', 'perde força.'],
     sub: 'chegou a hora de mudar.',
   },
+  // a Eco ainda não tem site: o canal oficial é o Instagram
   links: {
-    site: 'https://ecosolucoes.com.br/',
-    siteLabel: 'ecosolucoes.com.br',
     instagram: 'https://www.instagram.com/ecosolucoesemp',
     instagramLabel: '@ecosolucoesemp',
   },

@@ -13,7 +13,8 @@ export type Unit = {
   role: string;
   text: string;
   stats: Stat[];
-  cta: { label: string; href: string };
+  /** botão do site oficial (opcional: marca ainda sem site não tem) */
+  cta?: { label: string; href: string };
   instagram: string;
   /** tem landing escondida (abre ao clicar na logo) */
   landing?: boolean;
@@ -69,7 +70,6 @@ export const UNITS: Unit[] = [
       { value: 100, suffix: '%', label: 'gestão positiva' },
       { value: 150, suffix: '+', label: 'empresas atendidas' },
     ],
-    cta: { label: 'Visitar site', href: 'https://ecosolucoes.com.br/' },
     instagram: 'https://www.instagram.com/ecosolucoesemp',
   },
   {

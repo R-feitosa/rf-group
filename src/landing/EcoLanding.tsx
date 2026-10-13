@@ -18,13 +18,13 @@ const CHIP_ICON: Record<string, ReactNode> = {
 };
 const ArrowDR = () => <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round"><path d="M6 6l12 12M18 8v10H8" /></svg>;
 
-/** Faixa dos posts da marca: © · Instagram · site (topo e rodapé). */
+/** Faixa dos posts da marca: © · Instagram · nome (topo e rodapé). */
 function Bar({ top, dark }: { top?: boolean; dark?: boolean }) {
   return (
     <div className={`eco-bar${top ? ' top' : ''}${dark ? ' dark' : ''}`}>
       <span>© 2025 Eco Soluções</span>
       <a href={L.instagram} {...ext}>{L.instagramLabel}</a>
-      <a href={L.site} {...ext}>{L.siteLabel}</a>
+      <span>Eco Soluções</span>
     </div>
   );
 }
@@ -42,7 +42,7 @@ function Lockup() {
 
 /**
  * Folder da Eco Soluções: a moeda explode e se reconstrói como labirinto 3D (src/three/explode.ts, modo maze),
- * que fica como fundo fixo da landing. Conteúdo na linguagem dos posts da marca; sempre leva ao site oficial.
+ * que fica como fundo fixo da landing. Conteúdo na linguagem dos posts da marca; o canal oficial (ainda sem site) é o Instagram.
  */
 export default function EcoLanding() {
   const s = useLanding();
@@ -103,7 +103,7 @@ export default function EcoLanding() {
         <button ref={closeBtn} className="eco-back" onClick={() => closeLanding()}>
           <span aria-hidden="true">←</span> Voltar ao RF Group
         </button>
-        <a className="eco-btn line sm" href={L.site} {...ext}>Site oficial</a>
+        <a className="eco-btn line sm" href={L.instagram} {...ext}><Instagram /><span>Instagram</span></a>
       </div>
 
       {/* capa clara, sobre o labirinto */}
@@ -112,8 +112,7 @@ export default function EcoLanding() {
         <h1>{ECO.hero.title[0]}<br />{ECO.hero.title[1]} <b>{ECO.hero.title[2]}</b></h1>
         <p className="eco-lead">{ECO.hero.lead}</p>
         <div className="eco-cta">
-          <a className="eco-btn solid" href={L.site} {...ext}><span>Acessar o site oficial</span><ArrowDR /></a>
-          <a className="eco-btn line" href={L.instagram} {...ext}><Instagram /><span>{L.instagramLabel}</span></a>
+          <a className="eco-btn solid" href={L.instagram} {...ext}><Instagram /><span>Fale com a Eco no Instagram</span><ArrowDR /></a>
         </div>
         <EcoSymbol className="eco-mark" />
       </section>
@@ -142,17 +141,16 @@ export default function EcoLanding() {
         <EcoSymbol className="eco-case-mark" />
       </section>
 
-      {/* fechamento escuro: seleção de texto + botão de vidro para o site oficial */}
+      {/* fechamento escuro: seleção de texto + botão de vidro para o Instagram oficial */}
       <section className="eco-dark eco-final eco-in">
         <div className="eco-wrap">
           <h2>{fn.title[0]} <span className="eco-hl sel">{fn.title[1]}</span></h2>
           <p className="eco-sub">{fn.sub}</p>
-          <a className="eco-glass" href={L.site} {...ext}>
+          <a className="eco-glass" href={L.instagram} {...ext}>
             <ArrowDR />
-            <span><small>Site oficial</small>{L.siteLabel}</span>
+            <span><small>Instagram oficial</small>{L.instagramLabel}</span>
           </a>
           <div className="eco-final-links">
-            <a href={L.instagram} {...ext}><Instagram />{L.instagramLabel}</a>
             <button className="eco-back light" onClick={() => closeLanding()}>← Voltar ao RF Group</button>
           </div>
         </div>
