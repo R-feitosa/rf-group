@@ -15,6 +15,8 @@ import ValleyLanding from './landing/ValleyLanding';
 import ImoveisLanding from './landing/ImoveisLanding';
 import AdvogadosLanding from './landing/AdvogadosLanding';
 import EcoLanding from './landing/EcoLanding';
+import TourUI from './tour/TourUI';
+import { initTourFromUrl } from './tour/tour';
 import { prepareLanding } from './landing/controller';
 import { scheduleWarm } from './three/warm';
 import { bindMotion, prefersReducedMotion } from './three/motion';
@@ -30,6 +32,7 @@ export default function App() {
 
   useEffect(() => {
     bindMotion();
+    initTourFromUrl(); // ?modo=loop | ?modo=estande
     const t = setTimeout(() => { setReady(true); document.body.classList.add('ready'); }, 1500);
     // depois da abertura, prepara em segundo plano todas as logos e canvases 3D
     const w = setTimeout(() => { prebuildLogos(); startWarm(); }, 3200);
@@ -95,6 +98,7 @@ export default function App() {
       <ImoveisLanding />
       <AdvogadosLanding />
       <EcoLanding />
+      <TourUI />
     </>
   );
 }

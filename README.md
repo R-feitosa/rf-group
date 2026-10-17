@@ -30,6 +30,7 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 | `src/landing/ImoveisLanding.tsx` + `imoveis.ts` | Folder escondido da **Feitosa Imóveis**: portfólio resumido (temporada, residenciais, comerciais, valores "a partir de") que sempre leva ao catálogo oficial (rfeitosaimoveis.online), sem substituí-lo; base: repositório `site-catalogo-feitosaimoveis` (imagens em `src/assets/imoveis/`) |
 | `src/landing/AdvogadosLanding.tsx` + `advogados.ts` | Folder escondido da **R.Feitosa Advogados**: áreas, sócios, números, reconhecimentos e unidades, sempre levando ao site oficial (site-sdvogados.vercel.app), sem substituí-lo; base: repositório `site-sdvogados` (imagens em `src/assets/advogados/`) |
 | `src/landing/EcoLanding.tsx` + `eco.ts` | Folder escondido da **Eco Soluções** (1º protótipo): a moeda explode e se reconstrói como **labirinto 3D** (`explode.ts`, modo `maze`), que **fica como fundo fixo** da landing; conteúdo na linguagem dos posts da marca (preto profundo, cinza, Poppins, vidro, símbolo da moeda em cinza — `ecoSymbol.tsx`); a imagem do labirinto em `src/assets/eco/` é só reserva para aparelhos fracos; a Eco ainda não tem site, então os botões levam ao Instagram @ecosolucoesemp |
+| `src/tour/` (`tour.ts`, `TourUI.tsx`) | **Apresentação automática** (botões no rodapé ou pela URL): **em loop** (`?modo=loop`) e **modo estande** (`?modo=estande`) |
 | `src/three/explode.ts` | Explosão/remontagem 3D da logo (fragmentos + faíscas), adaptada de "Logos com explosão 3D" |
 | `src/three/motion.ts` | Estado global de mouse/scroll compartilhado pelas cenas |
 | `src/components/*` | Seções da página (Header, Hero, Quem somos, Empresas, Números, Contato, Footer) |
@@ -47,6 +48,14 @@ Deploy: projeto Vite padrão (a Vercel detecta automaticamente; saída em `dist/
 - **Limite de contextos WebGL**: o navegador limita quantos contextos 3D a página pode ter (≈8 no Chrome Android; passando disso ele derruba o mais antigo e o canvas fica branco). As logos das seções e da landing usam um renderizador compartilhado que desenha cada logo visível e copia para um `<canvas>` 2D — o site inteiro usa 4 contextos (topo, logos, voo, explosão).
 - **Performance**: logos construídas uma vez e compartilhadas (cache); todos os canvases são montados e têm os shaders compilados em segundo plano logo após a abertura (`src/three/warm.ts`), então clique e rolagem nunca criam contexto WebGL nem compilam shader; canvases pausam fora da tela e, durante o voo, só a logo voadora e a de destino renderizam; sem filtros CSS sobre canvases.
 - **Acessibilidade**: `prefers-reduced-motion` desliga as animações (o clique só rola até a empresa).
+
+## Apresentação automática (em loop / modo estande)
+
+O site se apresenta sozinho: topo → "Quem somos" → folder de cada empresa (explosão, percorre o folder, fecha) → números → clientes → contato → volta ao topo, em loop (~4 min por volta).
+
+- **Em loop** — botão no rodapé ou `?modo=loop`. Qualquer clique, toque, rolagem ou tecla **pausa**; aparece "Retomar / Sair".
+- **Modo estande** (TV/totem de evento) — botão no rodapé ou `?modo=estande`. Pelo link, mostra "Iniciar em tela cheia" e começa sozinho em 10 s (TV que religou). Tela cheia, cursor escondido, tela sem apagar (Wake Lock), botão flutuante de WhatsApp oculto, **links externos e formulário desativados** (aviso na tela). Se alguém interagir, pausa e **volta sozinho após 30 s** sem interação, recomeçando do topo. Sair: tocar na tela → "Sair do modo estande".
+- Tempos e roteiro em `src/tour/tour.ts` (`IDLE_MS`, `steps()`).
 
 ## Segurança
 

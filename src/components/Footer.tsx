@@ -1,6 +1,7 @@
 import { INSTAGRAM_GROUP, RH_EMAIL, UNITS, WHATSAPP, WHATSAPP_LABEL } from '../data';
 import { Arrow, Instagram, WhatsApp } from './Icons';
 import BrandLogo from './BrandLogo';
+import { TourPicker } from '../tour/TourUI';
 
 // crédito ao desenvolvedor: discreto (aparece por inteiro no hover/foco)
 const DEV = { name: 'Ruan Pereira', url: 'https://github.com/RuanPereiradev' };
@@ -61,6 +62,7 @@ export default function Footer() {
 
           <div className="copy">
             <span>© {year} RFeitosa Group. Todos os direitos reservados.</span>
+            <TourPicker />
             <a className="dev" href={DEV.url} target="_blank" rel="noopener noreferrer" aria-label={`Desenvolvido por ${DEV.name} (GitHub)`}>
               <span className="dev-mark" aria-hidden="true">&lt;/&gt;</span>
               <span className="dev-text">Desenvolvido por <b>{DEV.name}</b></span>
