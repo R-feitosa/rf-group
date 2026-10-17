@@ -737,6 +737,25 @@ body.flying #glow{opacity:0!important}
 .tour-go svg{width:18px;height:18px}
 .tour-arm small{color:rgba(255,255,255,.55);font-size:.8rem}
 .tour-link{font:inherit;font-size:.82rem;color:rgba(255,255,255,.7);background:none;border:0;text-decoration:underline;text-underline-offset:4px;cursor:pointer}
+/* botão flutuante da apresentação: acima do WhatsApp, mesmo eixo */
+.tour-fab{position:fixed;right:28px;bottom:96px;z-index:70;font-family:var(--sans)}
+.tour-fab-btn{position:relative;width:50px;height:50px;border-radius:50%;border:0;cursor:pointer;display:grid;place-items:center;background:var(--navy);color:#fff;box-shadow:0 12px 28px rgba(10,14,43,.45);transition:transform .4s var(--ease),background .3s}
+.tour-fab-btn:hover,.tour-fab.open .tour-fab-btn{transform:scale(1.08);background:var(--navy-3)}
+.tour-fab-btn:focus-visible{outline:2px solid var(--navy-3);outline-offset:3px}
+.tour-fab-btn svg{width:24px;height:24px}
+.tour-fab-tip{position:absolute;right:calc(100% + 12px);top:50%;transform:translate(6px,-50%);white-space:nowrap;padding:6px 12px;border-radius:999px;background:var(--navy);color:#fff;font-size:.78rem;letter-spacing:.04em;opacity:0;pointer-events:none;transition:opacity .25s,transform .25s}
+.tour-fab-btn:hover .tour-fab-tip{opacity:1;transform:translate(0,-50%)}
+.tour-fab.open .tour-fab-tip{display:none}
+.tour-fab-menu{position:absolute;right:0;bottom:62px;width:270px;padding:10px;border-radius:18px;background:#fff;color:var(--navy);box-shadow:0 24px 60px -18px rgba(10,14,43,.45),0 0 0 1px rgba(10,14,43,.06);animation:tourMenu .28s var(--ease)}
+@keyframes tourMenu{from{opacity:0;transform:translateY(8px) scale(.97)}}
+.tour-fab-menu p{padding:6px 10px 8px;font-size:.66rem;letter-spacing:.2em;text-transform:uppercase;color:rgba(10,14,43,.5)}
+.tour-fab-menu button{width:100%;display:flex;align-items:center;gap:12px;padding:10px;border:0;border-radius:12px;background:none;cursor:pointer;text-align:left;font:inherit;color:inherit;transition:background .2s}
+.tour-fab-menu button:hover,.tour-fab-menu button:focus-visible{background:#f1f2f7;outline:none}
+.tour-fab-menu i{display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:50%;background:var(--navy);color:#fff}
+.tour-fab-menu i svg{width:16px;height:16px}
+.tour-fab-menu span{display:grid;gap:1px}
+.tour-fab-menu b{font-weight:600;font-size:.95rem}
+.tour-fab-menu small{font-size:.78rem;color:rgba(10,14,43,.6)}
 html.stand .wa{display:none} /* estande: sem botão flutuante de WhatsApp (links externos ficam desativados) */
 html.stand.stand-idle,html.stand.stand-idle *{cursor:none!important}
 
