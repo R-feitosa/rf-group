@@ -51,6 +51,7 @@ export default function TourUI() {
           <i aria-hidden="true" />
           <span>Apresentação em loop</span>
           <button type="button" className="ghost" onClick={pauseTour}>Pausar</button>
+          <button type="button" className="ghost" onClick={() => startTour('estande', true)}>Modo estande</button>
           <button type="button" onClick={stopTour}>Sair</button>
         </div>
       )}
@@ -59,6 +60,8 @@ export default function TourUI() {
         <div className="tour-pill paused" data-tour-ui role="status">
           <span>{stand ? `Modo estande · a apresentação volta em ${secs} s` : 'Apresentação pausada'}</span>
           <button type="button" onClick={resumeTour}>{stand ? 'Retomar agora' : 'Retomar'}</button>
+          {/* troca direta de modo, sem passar pelo rodapé */}
+          <button type="button" className="ghost" onClick={() => startTour(stand ? 'loop' : 'estande', true)}>{stand ? 'Mudar para loop' : 'Modo estande'}</button>
           <button type="button" className="ghost" onClick={stopTour}>{stand ? 'Sair do modo estande' : 'Sair'}</button>
         </div>
       )}

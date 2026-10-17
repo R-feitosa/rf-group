@@ -55,6 +55,7 @@ O site se apresenta sozinho: topo → "Quem somos" → folder de cada empresa (e
 
 - **Em loop** — botão no rodapé ou `?modo=loop`. Qualquer clique, toque, rolagem ou tecla **pausa**; aparece "Retomar / Sair".
 - **Modo estande** (TV/totem de evento) — botão no rodapé ou `?modo=estande`. Pelo link, mostra "Iniciar em tela cheia" e começa sozinho em 10 s (TV que religou). Tela cheia, cursor escondido, tela sem apagar (Wake Lock), botão flutuante de WhatsApp oculto, **links externos e formulário desativados** (aviso na tela). Se alguém interagir, pausa e **volta sozinho após 30 s** sem interação, recomeçando do topo. Sair: tocar na tela → "Sair do modo estande".
+- **Trocar de modo** sem passar pelo rodapé: na pílula do loop, botão "Modo estande"; no estande, tocar na tela → "Mudar para loop".
 - Tempos e roteiro em `src/tour/tour.ts` (`IDLE_MS`, `steps()`).
 
 ## Segurança

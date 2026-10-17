@@ -247,6 +247,13 @@ let enteredFullscreen = false;
 /** Liga a apresentação. `gesture`: chamado a partir de um clique (permite tela cheia). */
 export function startTour(mode: TourMode, gesture = false) {
   clearTimeout(armTimer);
+  clearTimeout(resumeTimer); // troca de modo com o estande pausado: cancela a retomada agendada
+  if (mode === 'loop') { // saindo do estande para o loop: devolve cursor e libera a tela para apagar
+    clearTimeout(cursorTimer);
+    document.documentElement.classList.remove('stand-idle');
+    void wake?.release().catch(() => {});
+    wake = null;
+  }
   setUrl(mode);
   listen(true);
   const html = document.documentElement;
